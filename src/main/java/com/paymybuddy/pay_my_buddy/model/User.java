@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,4 +48,11 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
   private List<Transfert> transfertList;
 
+  @OneToOne @JoinColumn(name = "user_account_id", nullable = false)
+  private UserAccount userAccount;
+  
+  @OneToOne @JoinColumn(name = "app_account_id", nullable = false)
+  private AppAccount appAccount;
+
+  
 }
