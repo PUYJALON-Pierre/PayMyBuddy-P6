@@ -47,12 +47,12 @@ Available for all platforms (PC, tablets, phones)
 
 ## Class Diagram :
 
-<img src="images/classDiagram.png" width="100"/>
+<img src="/images/classDiagram.png" width="100"/>
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
 ## Physical Data Model :
 
-<img src="images/physicalDataModel.png" width="100"/>
+<img src="/images/physicalDataModel.png" width="100"/>
 
 -------------------------------------------------------------------------------------------------------------------------------------

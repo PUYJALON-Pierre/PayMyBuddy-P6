@@ -1,0 +1,83 @@
+/**************************************HOME PAGE**********************************************/
+
+#logoimage {
+
+   max-width: 40%;
+	height: 40%;
+}
+
+#fastpaymentimage {
+
+
+   max-width: 60%;
+	height: 60%;
+}
+
+#clickimage {
+
+   max-width: 10%;
+	height: 10%;
+}
+
+#platformimage {
+
+   max-width: 50%;
+	height: 50%;
+}
+
+#secureimage {
+
+   max-width: 30%;
+	height: 30%;
+}
+
+
+/***************************************LOGIN PAGE******************************************/
+.login {
+margin-top: 150px;
+padding-top: 25px;
+width: 440px;
+height: 470px;
+}
+
+.login .row1 {
+    margin-top: 10px;
+ }
+
+ .btn-success{
+    width: 180px;
+    font-size: 22px;
+}
+
+.btn-primary{
+    width: 150px;
+    font-size: 22px;
+}
+
+
+
+
+
+
+/**************************************TRANSFER PAGE**********************************************/
+
+#addConnectionButton {
+   padding-top: 2px;
+   width: 200px;
+   height: 30px;
+   font-size: 18px;
+
+}
+
+#payButton {
+ margin-top: 47px;
+}
+
+#selectconnection{
+   margin: auto;
+   width: 150px;
+   height: 35px;
+   font-size: 17px;
+
+}
+
