@@ -37,22 +37,25 @@ Available for all platforms (PC, tablets, phones)
 
 -> Copy project from Github on your local machine
 
+-> Create a MySQL server on your local machine with credential (username=pierredb + password=a627a158-1cd5-4ab1-a439-0d4873785246)
+
 -> Go to the root of the application and execute mvn spring-boot:run
 
 -> The server port is 8080
 
 -> Tests can be run with Maven
 
+-> When you are on the application login page, you can connect with the username = edenarnold@gmail.com and password = eden
 -------------------------------------------------------------------------------------------------------------------------------------
 
 ## Class Diagram :
 
-<img src="/images/classDiagram.png" width="100"/>
+![Class Diagram](src/main/resources/images/classDiagram.png)
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
 ## Physical Data Model :
 
-<img src="/images/physicalDataModel.png" width="100"/>
+![Physical Data Model](src/main/resources/images/physicalDataModel.png)
 
 -------------------------------------------------------------------------------------------------------------------------------------

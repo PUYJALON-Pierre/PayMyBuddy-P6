@@ -5,15 +5,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ContactController {
+public class ProfileController {
 
   
+  @GetMapping(value= "/profile")
+public String viewProfilePageModel (Model model) {
   
-  @GetMapping(value= "/contact")
-public String viewContactPageModel (Model model) {
+    return "profile";
+    
+  }
   
-    
-    
-    return "contact";
-}
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,6 +27,14 @@ public class User implements Serializable {
    * 
    */
   private static final long serialVersionUID = -3191940228131553256L;
+
+  public User(String firstname, String lastname, Date birthdate, UserAccount userAccount) {
+    super();
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.birthdate = birthdate;
+    this.userAccount = userAccount;
+  }
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "user_id")
   private int userID;
@@ -51,7 +60,8 @@ public class User implements Serializable {
   @OneToOne @JoinColumn(name = "user_account_id", nullable = false)
   private UserAccount userAccount;
   
-  @OneToOne @JoinColumn(name = "app_account_id", nullable = false)
+  @OneToOne (cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "app_account_id", nullable = false)
   private AppAccount appAccount;
 
   

@@ -7,27 +7,36 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.paymybuddy.pay_my_buddy.DTO.RegisterDTO;
+import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
 import com.paymybuddy.pay_my_buddy.model.Transfert;
 import com.paymybuddy.pay_my_buddy.model.User;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 import com.paymybuddy.pay_my_buddy.service.IUserService;
+import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 
 @Service
 public class UserServiceImpl implements IUserService {
 
+  MyUserDetailsService myUserDetailsService;
+  
   UserRepository userRepository;
 
   UserAccountRepository userAccountRepository;
 
   public UserServiceImpl(UserRepository userRepository,
-      UserAccountRepository userAccountRepository) {
+      UserAccountRepository userAccountRepository, MyUserDetailsService myUserDetailsService) {
     super();
     this.userRepository = userRepository;
     this.userAccountRepository = userAccountRepository;
+    this.myUserDetailsService = myUserDetailsService;
+  
   }
 
+  
+  
   @Override
   public Page<User> getUsers(int page) {
 
@@ -35,40 +44,27 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
-  public User saveUser(User user) {
+  public User saveUser(RegisterDTO registerDTO ) throws UserAccountException {
 
     // checking if email already exist
-    if (userAccountRepository.findByEmail(user.getUserAccount().getEmail()) == null) {
-
-      userRepository.save(user);
-      return user;
+    if ( userAccountRepository.findByEmail(registerDTO.getEmail()) != null) {
+      
+     throw new UserAccountException("An account has already registred with this Email");  
     }
-
-    return null;
+    
+    return myUserDetailsService.saveUser(registerDTO);
   }
+  
+  
 
   @Override
   public User updateUser(User user) {
 
-    // checking if user already exist before update
-    Optional<User> userToUpdate = userRepository.findById(user.getUserID());
-    if (userToUpdate != null) {
 
-      userToUpdate.get().setUserID(user.getUserID());
-      userToUpdate.get().setFirstname(user.getFirstname());
-      userToUpdate.get().setLastname(user.getLastname());
-      userToUpdate.get().setBirthdate(user.getBirthdate());
-      userToUpdate.get().setFriendList(user.getFriendList());
-      userToUpdate.get().setDepositList(user.getDepositList());
-      userToUpdate.get().setTransfertList(user.getTransfertList());
+      return userRepository.save(user);
+    
 
-      userRepository.save(userToUpdate.get());
-
-      return userToUpdate.get();
-    }
-    ;
-
-    return null;
+   
   }
 
   @Override
@@ -116,6 +112,11 @@ public class UserServiceImpl implements IUserService {
   @Override
   public List<Deposit> findAllDeposit(User user) {
     return user.getDepositList();
+  }
+
+  @Override
+  public User getUserById(int id) {
+    return userRepository.findById(id).get();
   }
 
 }
