@@ -1,9 +1,8 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
+import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.AppAccount;
 import com.paymybuddy.pay_my_buddy.repository.AppAccountRepository;
 import com.paymybuddy.pay_my_buddy.service.IAppAccountService;
@@ -19,31 +18,32 @@ public class AppAccountServiceImpl implements IAppAccountService {
   }
 
   @Override
-  public AppAccount createAppAccount(AppAccount appAccount) {
+  public AppAccount createAppAccount(AppAccount appAccount) throws UserAccountException {
 
     // checking if account already exist
-    if (appAccountRepository.findById(appAccount.getAppAccountID()).get() != appAccount) {
+    if (appAccountRepository.findById(appAccount.getAppAccountID()).isPresent()) {
 
-      appAccountRepository.save(appAccount);
+   throw new UserAccountException ("This account already exist");
     }
 
-    return appAccount;
+    return    appAccountRepository.save(appAccount);
 
   }
 
   @Override
-  public AppAccount updateAppAccount(AppAccount appAccount) {
+  public AppAccount updateAppAccount(AppAccount appAccount) throws UserAccountException {
 
-    Optional<AppAccount> appAccountToUpdate = appAccountRepository
-        .findById(appAccount.getAppAccountID());
+    
+    AppAccount appAccountToUpdate = new AppAccount();
+    
+    if (appAccountRepository.findById(appAccount.getAppAccountID()).isPresent()) {
 
-    if (appAccountToUpdate != null) {
-
-      appAccountToUpdate.get().setAppAccountID(appAccount.getAppAccountID());
-      appAccountToUpdate.get().setBalance(appAccount.getBalance());
-      appAccountRepository.save(appAccountToUpdate.get());
+      appAccountToUpdate.setAppAccountID(appAccount.getAppAccountID());
+      appAccountToUpdate.setBalance(appAccount.getBalance());
+     return appAccountRepository.save(appAccountToUpdate);
     }
-    return appAccount;
+    else {
+    throw new UserAccountException ("App Account to update not founded");}
   }
 
   @Override

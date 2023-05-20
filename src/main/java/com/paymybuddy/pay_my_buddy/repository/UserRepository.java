@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.paymybuddy.pay_my_buddy.model.User;
+import com.paymybuddy.pay_my_buddy.model.UserAccount;
 
 
 @Repository
@@ -17,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   public Page <User> findAll( Pageable page);
   
   public Optional<User> deleteById(int id);
+  
+  public Optional<User> findByUserAccount(UserAccount userAccount);
   
   
   

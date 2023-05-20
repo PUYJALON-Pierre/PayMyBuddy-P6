@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.paymybuddy.pay_my_buddy.DTO.RegisterDTO;
+import com.paymybuddy.pay_my_buddy.exception.FriendException;
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
 import com.paymybuddy.pay_my_buddy.model.Transfert;
@@ -20,7 +20,7 @@ import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 @Service
 public class UserServiceImpl implements IUserService {
 
-  MyUserDetailsService myUserDetailsService;
+
   
   UserRepository userRepository;
 
@@ -31,7 +31,7 @@ public class UserServiceImpl implements IUserService {
     super();
     this.userRepository = userRepository;
     this.userAccountRepository = userAccountRepository;
-    this.myUserDetailsService = myUserDetailsService;
+
   
   }
 
@@ -44,15 +44,9 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
-  public User saveUser(RegisterDTO registerDTO ) throws UserAccountException {
+  public User saveUser(User user) {
 
-    // checking if email already exist
-    if ( userAccountRepository.findByEmail(registerDTO.getEmail()) != null) {
-      
-     throw new UserAccountException("An account has already registred with this Email");  
-    }
-    
-    return myUserDetailsService.saveUser(registerDTO);
+    return userRepository.save(user);
   }
   
   
@@ -60,13 +54,12 @@ public class UserServiceImpl implements IUserService {
   @Override
   public User updateUser(User user) {
 
-
       return userRepository.save(user);
-    
 
-   
   }
 
+  
+  
   @Override
   public void deleteUserById(int id) {
 
@@ -74,44 +67,59 @@ public class UserServiceImpl implements IUserService {
 
   }
 
+  //problème save the transient instance before flushing
   @Override
-  public User addFriendToUser(User user, User friend) {
+  public User addFriendToUser(User user, User friend) throws FriendException {
 
     // checking if user is already a friend
 
     if (user.getFriendList().contains(friend)) {
-      System.out.println("already friend");
-      return null;
+      throw new FriendException("You are already friend with this person");
     } else {
-      user.getFriendList().add(friend);
-      return friend;
+   
+ 
+      List<User> updateFriendList = user.getFriendList();
+     updateFriendList.add(friend);
+     user.setFriendList(updateFriendList);
+      userRepository.save(user);
+      return user;
     }
 
   }
 
   @Override
-  public User deleteFriend(User user, User friend) {
+  public User deleteFriend(User user, User friend) throws FriendException {
 
     if (user.getFriendList().contains(friend)) {
-      user.getFriendList().remove(friend);
+
+      List<User> updateFriendList = user.getFriendList();
+    updateFriendList.remove(friend);
+    user.setFriendList(updateFriendList);
+      userRepository.save(user);
     }
-    return friend;
+    else{
+      throw new FriendException("You are not friend with this person");
+    };
+    return user;
   }
 
+  
   @Override
-  public List<User> findAllFriend(int id) {
-    Optional<User> user = userRepository.findById(id);
-    return user.get().getFriendList();
+  public List<User> findAllFriend(User user) {
+    List <User> friendList = user.getFriendList();
+    return friendList;
   }
 
   @Override
   public List<Transfert> findAllTransfert(User user) {
-    return user.getTransfertList();
+    List <Transfert> transfertList = user.getTransfertList();
+    return transfertList;
   }
 
   @Override
   public List<Deposit> findAllDeposit(User user) {
-    return user.getDepositList();
+    List <Deposit> depositList = user.getDepositList();
+    return depositList;
   }
 
   @Override

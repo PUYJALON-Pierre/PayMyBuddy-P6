@@ -1,8 +1,14 @@
 package com.paymybuddy.pay_my_buddy.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,23 +23,27 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @Entity @NoArgsConstructor @Table(name = "user")
-public class User implements Serializable {
+@Data @Builder @AllArgsConstructor@Entity @NoArgsConstructor @Table(name = "user")
+public class User implements Serializable, UserDetails {
 
   /**
    * 
    */
   private static final long serialVersionUID = -3191940228131553256L;
 
-  public User(String firstname, String lastname, Date birthdate, UserAccount userAccount) {
+  public User(String firstname, String lastname, Date birthdate, UserAccount userAccount, AppAccount appAccount) {
     super();
     this.firstname = firstname;
     this.lastname = lastname;
     this.birthdate = birthdate;
     this.userAccount = userAccount;
+    this.appAccount= appAccount;
+    
   }
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "user_id")
@@ -48,7 +58,13 @@ public class User implements Serializable {
   @Column(name = "birthdate")
   private Date birthdate;
 
-  @ManyToMany(fetch = FetchType.LAZY) @JoinTable(name = "friend", joinColumns = @JoinColumn(name = "user_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "friend_id", nullable = false))
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "friend",
+      joinColumns = @JoinColumn(name = "user_id", nullable = false),
+      inverseJoinColumns = @JoinColumn(name = "friend_id", nullable = false)
+      //uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "friend_id"})     duplicate when rerun
+      )
+  
   private List<User> friendList;
 
   @OneToMany(mappedBy = "sourceUser", fetch = FetchType.LAZY)
@@ -57,12 +73,53 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "recipient", fetch = FetchType.LAZY)
   private List<Transfert> transfertList;
 
-  @OneToOne @JoinColumn(name = "user_account_id", nullable = false)
+  @OneToOne @JoinColumn(name = "user_account_id")
   private UserAccount userAccount;
   
-  @OneToOne (cascade = CascadeType.PERSIST)
+  @OneToOne 
   @JoinColumn(name = "app_account_id", nullable = false)
   private AppAccount appAccount;
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.singletonList(new SimpleGrantedAuthority("USER")); //mettre une enum pour les roels?
+  }
+
+  @Override
+  public String getPassword() {
+    // TODO Auto-generated method stub
+    return userAccount.getPassword();
+  }
+
+  @Override
+  public String getUsername() {
+    // TODO Auto-generated method stub
+   return userAccount.getEmail();
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    // TODO Auto-generated method stub
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    // TODO Auto-generated method stub
+    return true;
+  }
 
   
 }

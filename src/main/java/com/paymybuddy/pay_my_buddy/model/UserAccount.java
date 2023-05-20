@@ -20,7 +20,9 @@ public class UserAccount implements Serializable {
    */
   private static final long serialVersionUID = 2870189363034950533L;
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "user_account_id")
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY) 
+  @Column(name = "user_account_id")
   private int userAccountID;
 
   @Column(name = "email", unique = true, length=50, nullable = false)

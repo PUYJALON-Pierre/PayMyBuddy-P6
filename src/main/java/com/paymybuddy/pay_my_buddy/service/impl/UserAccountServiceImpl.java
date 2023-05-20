@@ -1,9 +1,10 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
-import java.util.Optional;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.UserAccount;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.service.IUserAccountService;
@@ -18,35 +19,47 @@ public class UserAccountServiceImpl implements IUserAccountService {
     this.userAccountRepository = userAccountRepository;
   }
 
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+  
+  
   @Override
-  public UserAccount createUserAccount(UserAccount userAccount) {
+  public UserAccount createUserAccount(UserAccount userAccount)throws UserAccountException{
 
     // checking if mail already exist
-    if (userAccountRepository.findByEmail(userAccount.getEmail()).get() == null) {
-
+    if (userAccountRepository.findByEmail(userAccount.getEmail()).isPresent()) {
+      throw new UserAccountException("An account has already registred with this Email");
+     
+    } else {
       userAccountRepository.save(userAccount);
       return userAccount;
-    } else {
-      return null;
     }
 
   }
+  
+
 
   @Override
-  public UserAccount updateUserAccount(UserAccount userAccount) {
+  public UserAccount updateUserAccount(UserAccount userAccount) throws UserAccountException {
 
-    Optional<UserAccount> userAccountToUpdate = userAccountRepository
-        .findByEmail(userAccount.getEmail());
+   
+    if (userAccountRepository.findByEmail(userAccount.getEmail()).isPresent()) {
 
-    userAccountToUpdate.get().setUserAccountID(userAccount.getUserAccountID());
-    userAccountToUpdate.get().setPassword(userAccount.getPassword());
-    userAccountToUpdate.get().setLastConnection(userAccount.getLastConnection());
+      UserAccount userAccountToUpdate = userAccountRepository.findByEmail(userAccount.getEmail()).get();
+    userAccountToUpdate.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+  
 
-    userAccountRepository.save(userAccountToUpdate.get());
+    userAccountRepository.save(userAccountToUpdate);
 
-    return userAccountToUpdate.get();
-  }
+    return userAccountToUpdate;}
+    
+    
+    else {
+      throw new UserAccountException ("User Account to update not founded");}
+    }
+  
 
+  
   @Override
   public void deleteUserAccountByEmail(String email) {
     userAccountRepository.deleteByEmail(email);

@@ -8,7 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.pay_my_buddy.DTO.RegisterDTO;
-import com.paymybuddy.pay_my_buddy.model.MyUserPrincipal;
+import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
+import com.paymybuddy.pay_my_buddy.model.AppAccount;
 import com.paymybuddy.pay_my_buddy.model.User;
 import com.paymybuddy.pay_my_buddy.model.UserAccount;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
@@ -26,21 +27,32 @@ public class MyUserDetailsService implements UserDetailsService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+
   public MyUserDetailsService(UserAccountRepository userAccountRepository) {
     super();
-    this.userAccountRepository = userAccountRepository;
-  }
+    this.userAccountRepository = userAccountRepository;}
 
-  public User saveUser(RegisterDTO registerDTO) {
+  
+  //Conflit avec JWT??? register cotrolelr
+  public User registerUser(RegisterDTO registerDTO) throws UserAccountException {
 
+    AppAccount newAppAccount = new AppAccount();
+
+    newAppAccount.setBalance(0);
+    
     UserAccount newAccount = new UserAccount();
     newAccount.setEmail(registerDTO.getEmail());
     newAccount.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
     User newUser = new User(registerDTO.getFirstName(), registerDTO.getLastName(),
-        registerDTO.getBirthdate(), newAccount);
+        registerDTO.getBirthdate(), newAccount, newAppAccount);
 
-    return userRepository.save(newUser);
+    if (userAccountRepository.findByEmail(newUser.getUserAccount().getEmail()).isPresent()) {
+      throw new UserAccountException("An account has already registred with this Email");
+
+    } else {
+      return userRepository.save(newUser);
+    }
 
   }
 
@@ -54,8 +66,12 @@ public class MyUserDetailsService implements UserDetailsService {
     {
       System.out.println("Cannot find email : " + mail);
     }
+    
+    //use useracount to retrieve user that extends dUSerDetails
+    User connectedUSer = userRepository.findByUserAccount(userAccount).get();
+    
 
-    return new MyUserPrincipal(userAccount);
+    return connectedUSer;
   }
 
 }

@@ -9,7 +9,7 @@ public class RegisterController {
 
   
 
-  @GetMapping(value= "/register")
+  @GetMapping(value= "/registration")
 public String viewRegisterPageModel (Model model) {
   
     return "register";
