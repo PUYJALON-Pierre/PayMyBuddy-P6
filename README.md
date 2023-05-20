@@ -46,16 +46,17 @@ Available for all platforms (PC, tablets, phones)
 -> Tests can be run with Maven
 
 -> When you are on the application login page, you can connect with the username = edenarnold@gmail.com and password = eden
+
 -------------------------------------------------------------------------------------------------------------------------------------
 
 ## Class Diagram :
 
-![Class Diagram](src/main/resources/images/classDiagram.png)
+![Class Diagram](src/main/resources/static/images/classDiagram.png)
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
 ## Physical Data Model :
 
-![Physical Data Model](src/main/resources/images/physicalDataModel.png)
+![Physical Data Model](src/main/resources/static/images/physicalDataModel.png)
 
 -------------------------------------------------------------------------------------------------------------------------------------
