@@ -1,13 +1,20 @@
 package com.paymybuddy.pay_my_buddy.config;
 
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
+import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,10 +22,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
 
+  
+  @Autowired
+  private UserAccountRepository userAccountRepository;
+  
+  @Bean
+  public UserDetailsService userDetailsService() {
+      return new MyUserDetailsService(userAccountRepository);
+  }
+  
+  @Bean
+  public DaoAuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService());
+    authProvider.setPasswordEncoder(passwordEncoder());
+    return authProvider;
+  }
+  
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-  private final JwtAuthentificationFilter jwtAuthFilter;
-  private final DaoAuthenticationProvider authenticationProvider;
- 
+  
+
+//***************************************************************
+  
+  
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
   
@@ -29,32 +59,26 @@ public class SpringSecurityConfig {
     .requestMatchers("/css/**", "/images/**").permitAll()
     .requestMatchers("/home", "/contact", "/registration")
     .permitAll()
-    .requestMatchers("/api/v1/auth/**")
-    .permitAll()
     .anyRequest()
         .authenticated()
         .and()
         .formLogin()
-        .loginPage("/login")
+        .permitAll()
         .defaultSuccessUrl("/profile", true)
-        .passwordParameter("password")
-        .usernameParameter("username")
-        .permitAll()
-        .and()
-        .logout()
-        .permitAll()
-        .and().sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-.and().authenticationProvider(authenticationProvider)
-.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+.and().rememberMe(rememberMeConfigurer -> rememberMeConfigurer.userDetailsService(userDetailsService())
+    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(1))
+    .key("645367566B5970337336763979244226452948404D6351665468576D5A713474")
+    .rememberMeParameter("remember-me"))
+.logout()
+     .clearAuthentication(true)
+     .invalidateHttpSession(true)
+     .deleteCookies("JSESSIONID", "remember-me")
+     .logoutSuccessUrl("/home");;
     
     return http.build();
   }
 
 
-//***************************************************************
-  
-  
 
  
  

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `app_account` (
 
 -- Listage des données de la table pay_my_buddy.app_account : 10 rows
 /*!40000 ALTER TABLE `app_account` DISABLE KEYS */;
-REPLACE INTO `app_account` (`app_account_id`, `balance`) VALUES
+INSERT INTO `app_account` (`app_account_id`, `balance`) VALUES
 	(1, 129.3),
 	(2, 39.65),
 	(3, 69.6),
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `deposit` (
 
 -- Listage des données de la table pay_my_buddy.deposit : 10 rows
 /*!40000 ALTER TABLE `deposit` DISABLE KEYS */;
-REPLACE INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`) VALUES
+INSERT INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`) VALUES
 	(1, 120, '$', '2020-04-27 17:39:57', NULL, 0.005, 'FR332500000550', 1),
 	(2, 50, '$', '2020-04-27 17:43:13', 'deposit', 0.005, 'BE784525468541', 2),
 	(3, 70, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR875155633344', 3),
@@ -73,25 +73,27 @@ REPLACE INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`
 
 -- Listage de la structure de table pay_my_buddy. friend
 CREATE TABLE IF NOT EXISTS `friend` (
+  `friendship_id` int NOT NULL,
   `user_id` int NOT NULL,
   `friend_id` int NOT NULL,
+  UNIQUE KEY `firendship_id` (`friendship_id`),
   KEY `FKf9qk6e95h3da7o1u83ihtwrqa` (`friend_id`),
   KEY `FK3uu8s7yyof1qmenthngm24hry` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy.friend : 10 rows
 /*!40000 ALTER TABLE `friend` DISABLE KEYS */;
-REPLACE INTO `friend` (`user_id`, `friend_id`) VALUES
-	(1, 2),
-	(1, 8),
-	(2, 1),
-	(3, 4),
-	(4, 3),
-	(5, 6),
-	(6, 5),
-	(8, 1),
-	(9, 10),
-	(10, 9);
+INSERT INTO `friend` (`friendship_id`, `user_id`, `friend_id`) VALUES
+	(1, 1, 2),
+	(2, 1, 8),
+	(3, 2, 1),
+	(4, 3, 4),
+	(5, 4, 3),
+	(6, 5, 6),
+	(7, 6, 5),
+	(8, 8, 1),
+	(9, 9, 10),
+	(10, 10, 9);
 /*!40000 ALTER TABLE `friend` ENABLE KEYS */;
 
 -- Listage de la structure de table pay_my_buddy. transfert
@@ -111,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `transfert` (
 
 -- Listage des données de la table pay_my_buddy.transfert : 10 rows
 /*!40000 ALTER TABLE `transfert` DISABLE KEYS */;
-REPLACE INTO `transfert` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `source_user`, `user_recipient`) VALUES
+INSERT INTO `transfert` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `source_user`, `user_recipient`) VALUES
 	(1, 10, '$', '2023-04-27 18:39:09', 'movie', 0.005, 2, 1),
 	(2, 10, '$', '2023-04-27 18:39:09', 'food', 0.005, 1, 2),
 	(3, 10, '$', '2023-04-27 18:39:09', 'movie', 0.005, 4, 3),
@@ -139,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Listage des données de la table pay_my_buddy.user : 10 rows
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-REPLACE INTO `user` (`user_id`, `birthdate`, `firstname`, `lastname`, `app_account_id`, `user_account_id`) VALUES
+INSERT INTO `user` (`user_id`, `birthdate`, `firstname`, `lastname`, `app_account_id`, `user_account_id`) VALUES
 	(4, '1993-01-05 00:00:00', 'Anna', 'Moreau', 4, 4),
 	(5, '1998-08-19 00:00:00', 'Marta', 'Feret', 5, 5),
 	(6, '1995-03-29 00:00:00', 'Tim', 'Blond', 6, 6),
@@ -165,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `user_account` (
 
 -- Listage des données de la table pay_my_buddy.user_account : 10 rows
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
-REPLACE INTO `user_account` (`user_account_id`, `email`, `last_connection`, `online_status`, `password`) VALUES
+INSERT INTO `user_account` (`user_account_id`, `email`, `last_connection`, `online_status`, `password`) VALUES
 	(1, 'emmabolt@gmail.com', '2022-04-21 17:06:34', b'0', '$2y$10$LU7mY5XJuA7vygZqAVzureDTz/9kUHi8EfaI7zjnp3PM.NlPbNHWm'),
 	(2, 'edenarnold@gmail.com', '2023-07-11 17:10:54', b'1', '$2y$10$R7napE5jfZWi5NtMzVIS2.Kk4l3hITvSxe.YsaK9Gygb9mcKsqppi'),
 	(3, 'isaacshelby@gmail.com', '2019-03-01 17:11:58', b'0', '$2y$10$bxAe8pg6JACDIxulxXs3qOGEfHMfiAlmg9wP6S4uO4vdE.roi/4fi'),
@@ -177,22 +179,6 @@ REPLACE INTO `user_account` (`user_account_id`, `email`, `last_connection`, `onl
 	(9, 'florianmessier@gmail.com', '2023-04-03 17:19:47', b'0', '$2y$10$h8Zd6n/RNEP2FgAI2KuDwuaUH/S5B0NUOo9SLRvpNrEUDlJvowudK'),
 	(10, 'leslieberroua@gmail.com', '2020-04-21 17:20:37', b'0', '$2y$10$4ElhS4vHoVPnx29XlWP4eOmZFswW0e9T8sOLtKAK0aPvte8GkmQ3i');
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
-
--- --------------------------------------------------------
--- Hôte:                         127.0.0.1
--- Version du serveur:           8.0.31 - MySQL Community Server - GPL
--- SE du serveur:                Win64
--- HeidiSQL Version:             12.3.0.6589
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- Listage de la structure de la base pour pay_my_buddy_test
@@ -207,7 +193,6 @@ CREATE TABLE IF NOT EXISTS `app_account` (
 ) ENGINE=MyISAM AUTO_INCREMENT=160 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.app_account : 4 rows
-DELETE FROM `app_account`;
 /*!40000 ALTER TABLE `app_account` DISABLE KEYS */;
 INSERT INTO `app_account` (`app_account_id`, `balance`) VALUES
 	(1, 119.45),
@@ -232,7 +217,6 @@ CREATE TABLE IF NOT EXISTS `deposit` (
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.deposit : 4 rows
-DELETE FROM `deposit`;
 /*!40000 ALTER TABLE `deposit` DISABLE KEYS */;
 INSERT INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`) VALUES
 	(1, 120, '$', '2020-04-27 17:39:57', NULL, 0.005, 'FR332500000550', 1),
@@ -250,7 +234,6 @@ CREATE TABLE IF NOT EXISTS `friend` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.friend : 4 rows
-DELETE FROM `friend`;
 /*!40000 ALTER TABLE `friend` DISABLE KEYS */;
 INSERT INTO `friend` (`user_id`, `friend_id`) VALUES
 	(1, 2),
@@ -275,7 +258,6 @@ CREATE TABLE IF NOT EXISTS `transfert` (
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.transfert : 4 rows
-DELETE FROM `transfert`;
 /*!40000 ALTER TABLE `transfert` DISABLE KEYS */;
 INSERT INTO `transfert` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `source_user`, `user_recipient`) VALUES
 	(1, 10, '$', '2023-04-27 18:39:09', 'movie', 0.005, 2, 1),
@@ -298,7 +280,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.user : 4 rows
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `birthdate`, `firstname`, `lastname`, `app_account_id`, `user_account_id`) VALUES
 	(4, '1993-01-05 00:00:00', 'Sophie', 'Moreau', 4, 4),
@@ -319,7 +300,6 @@ CREATE TABLE IF NOT EXISTS `user_account` (
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.user_account : 4 rows
-DELETE FROM `user_account`;
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
 INSERT INTO `user_account` (`user_account_id`, `email`, `last_connection`, `online_status`, `password`) VALUES
 	(1, 'jeanbolt@gmail.com', '2022-04-21 17:06:34', b'0', '$2y$10$LU7mY5XJuA7vygZqAVzureDTz/9kUHi8EfaI7zjnp3PM.NlPbNHWm'),

@@ -37,15 +37,17 @@ Available for all platforms (PC, tablets, phones)
 
 -> Copy project from Github on your local machine
 
--> Create a MySQL server on your local machine with credential (username=pierredb + password=a627a158-1cd5-4ab1-a439-0d4873785246)
+-> Create a MySQL server on your local machine with a user (username=pierredb + password=a627a158-1cd5-4ab1-a439-0d4873785246) and give credential
+
+-> Execute data.sql in order to create database with informations
 
 -> Go to the root of the application and execute mvn spring-boot:run
 
--> The server port is 8080
+-> The server port is 8080. When hen it's running, you can visit homepage at "http://localhost:8080/home"
+
+-> When you are on the application login page, you can register or connect with the username = edenarnold@gmail.com and password = eden
 
 -> Tests can be run with Maven
-
--> When you are on the application login page, you can connect with the username = edenarnold@gmail.com and password = eden
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
