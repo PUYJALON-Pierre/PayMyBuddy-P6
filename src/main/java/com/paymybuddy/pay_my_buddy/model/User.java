@@ -6,11 +6,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -56,6 +56,7 @@ public class User implements Serializable, UserDetails {
   private String lastname;
 
   @Column(name = "birthdate")
+  @DateTimeFormat(pattern="yyyy-MM-dd")
   private Date birthdate;
 
   @ManyToMany(fetch = FetchType.LAZY)

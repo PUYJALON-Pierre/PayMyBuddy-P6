@@ -16,10 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 
-import lombok.RequiredArgsConstructor;
-
 @Configuration @EnableWebSecurity
-@RequiredArgsConstructor
 public class SpringSecurityConfig {
 
   
@@ -63,7 +60,10 @@ public class SpringSecurityConfig {
         .authenticated()
         .and()
         .formLogin()
+        .loginPage("/login")
         .permitAll()
+        .passwordParameter("password")
+        .usernameParameter("email")
         .defaultSuccessUrl("/profile", true)
 .and().rememberMe(rememberMeConfigurer -> rememberMeConfigurer.userDetailsService(userDetailsService())
     .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(1))

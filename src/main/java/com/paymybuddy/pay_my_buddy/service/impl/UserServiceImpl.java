@@ -1,14 +1,12 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.pay_my_buddy.exception.FriendException;
-import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
 import com.paymybuddy.pay_my_buddy.model.Transfert;
 import com.paymybuddy.pay_my_buddy.model.User;

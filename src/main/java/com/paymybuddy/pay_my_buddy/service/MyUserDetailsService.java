@@ -12,12 +12,16 @@ import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.AppAccount;
 import com.paymybuddy.pay_my_buddy.model.User;
 import com.paymybuddy.pay_my_buddy.model.UserAccount;
+import com.paymybuddy.pay_my_buddy.repository.AppAccountRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
+  @Autowired
+  AppAccountRepository appAccountRepository;
+  
   @Autowired
   UserAccountRepository userAccountRepository;
 
@@ -32,26 +36,32 @@ public class MyUserDetailsService implements UserDetailsService {
     super();
     this.userAccountRepository = userAccountRepository;}
 
+
   
-  //Conflit avec JWT??? register cotrolelr
   public User registerUser(RegisterDTO registerDTO) throws UserAccountException {
 
     AppAccount newAppAccount = new AppAccount();
-
     newAppAccount.setBalance(0);
+    
+    //save to generate id by jpa
+    appAccountRepository.save(newAppAccount);
     
     UserAccount newAccount = new UserAccount();
     newAccount.setEmail(registerDTO.getEmail());
     newAccount.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-
-    User newUser = new User(registerDTO.getFirstName(), registerDTO.getLastName(),
+    
+    User newUser = new User(registerDTO.getFirstname(), registerDTO.getLastname(),
         registerDTO.getBirthdate(), newAccount, newAppAccount);
 
     if (userAccountRepository.findByEmail(newUser.getUserAccount().getEmail()).isPresent()) {
       throw new UserAccountException("An account has already registred with this Email");
 
     } else {
-      return userRepository.save(newUser);
+      //save to generate id by jpa
+      userAccountRepository.save(newAccount);
+      
+      userRepository.save(newUser);
+      return newUser;
     }
 
   }
@@ -67,7 +77,7 @@ public class MyUserDetailsService implements UserDetailsService {
       System.out.println("Cannot find email : " + mail);
     }
     
-    //use useracount to retrieve user that extends dUSerDetails
+    //use userAcount to retrieve user that implements UserDetails
     User connectedUSer = userRepository.findByUserAccount(userAccount).get();
     
 
