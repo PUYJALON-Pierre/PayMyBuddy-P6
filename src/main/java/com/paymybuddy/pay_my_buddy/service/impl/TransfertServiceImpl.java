@@ -1,5 +1,6 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
+
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -43,7 +44,7 @@ public class TransfertServiceImpl implements ITransfertService {
   @Override
   public Page<Transfert> getTransfertsBetweenAnyUsers(User user1, User user2, int page) {
 
-    return transfertRepository.findBySourceUserOrRecipient(user1, user2, PageRequest.of(page, 3));
+    return transfertRepository.findBySourceUserOrRecipient(user1, user2,  PageRequest.of(page, 3));
   }
 
   @Override

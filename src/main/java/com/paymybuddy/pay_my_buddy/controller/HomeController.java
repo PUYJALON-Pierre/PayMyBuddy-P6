@@ -3,6 +3,7 @@ package com.paymybuddy.pay_my_buddy.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 
@@ -17,14 +18,13 @@ public String viewHomePageModel (Model model) {
   }
   
   
-  @GetMapping("/")
+  @RequestMapping("/")
   public String defaut() {
     return "redirect:/home";
   }
   
   
-  
-  
+
   
 }
 
