@@ -15,7 +15,7 @@
         <nav class="navbar justify-content-between py-2">
             <div>
                 <a class="navbar-brand fw-bold px-3">
-                    <button type="button" class="btn btn-success">Pay My Buddy</button>
+                    <button type="button" class="btn btn-success" id="greenButton">Pay My Buddy</button>
                 </a>
             </div>
             <nav class="navbar navbar-expand navbar-light">
@@ -53,7 +53,7 @@
     </section>
 
     
-    <section class="title container pt-5">
+    <section class="title container col-11 pt-5">
         <div class="row"> 
       
 
@@ -66,112 +66,124 @@
     </div>
     </section>
     
-    <section class="infos container bg-light border border-dark">
-        <div class="row"> 
+    <section class="infos col-10 container bg-light border border-dark">
+       <form th:object="${transferForm}" th:action="@{/transfer}" method="post" >
+        <div class="row pt-4 "> 
             <div class="col input-group">
-            <div class="select person py-5 px-2" id="selectconnection">
-                <select class="custom-select custom-select-sm py-2">
-                    <option selected>Select A Connection</option>
-                    <option value="1">Mbappe Kyllian </option>
-                    <option value="2">Erling Haaland </option>
-                    <option value="3">Sadio Mané </option>
-                    <option value="4">Ronaldhino </option>
-                  </select>
-              </div>
+           
+           <select class="form-select" th:field="*{sourceUser}" name="SourceUserId" required>
+					<option value="0" selected>Select a Connection</option>
+					<option th:each="connection: ${connectionsList}"
+						th:value="${connection.userID}"
+						th:text="${connection.userAccount.email}"></option>
+				</select>
+				<span class="has-errors"
+						th:if="${#fields.hasErrors('sourceUser')}" th:errors="*{sourceUser}"></span>
             </div>
             <div class=" col input-group mb-1 d-flex flex-row m-auto ">
                 <div class="input-group-prepend">
-                  <span class="input-group-text py-2" id="inputGroup-sizing-default">Amount (0.00)</span>
+                  <span class="input-group-text py-2" id="inputGroup-sizing-default">Amount :</span>
                 </div>
-                <input type="text" class="form-control text-end" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-    
+                <input type="text" class="form-control text-end" th:field=*{amount} aria-label="Default" aria-describedby="inputGroup-sizing-default" min="1"  required>
+    <span class="has-errors"
+					th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
                   <div class="select currency">
-                    <select class="custom-select custom-select-sm pb-3 ">
-                        <option selected>EUR</option>
-                        <option value="1">USD </option>
-                        <option value="2">GBP</option>
-                        <option value="3">CAD</option>
-                        <option value="3">JPY</option>
-                        <option value="3">HKD</option>
+                    <select class="custom-select custom-select-sm pb-3" th:field="*{currency}" required>            
+          <option th:value="'$'" th:text="USD"></option>
+           <option th:value="'€'" th:text="EUR"></option>
                       </select>
                   </div>
                 </div>
             
                 <div class="col-3 m-auto">
-                    <button type="button" class="btn btn-success" id="payButton">Pay</button>
+                    <button type="submit" name="transfer" class="btn btn-success" id="payButton">Pay</button>
                    </div>
                
     </div>
     <div class="row2 d-flex flex-row py-5"> 
         <div class="col-7 form-group m-auto ">
-            <input type="text" class="form-control pb-5" id="formGroupExampleInput" placeholder="Description...">
+            <input type="text" th:field="*{description}" class="form-control pb-5" id="formGroupExampleInput" placeholder="Description...">
         </div>
 
          
         </div>
+        </form>
     </section>
 
-    <section class="transactions container">
-  <p class="h4 text-dark fw-bold py-5">My Transactions</p>
+    <section class="transactions container col-11 ">
+  <p class="h4 text-dark fw-bold pt-5">My Transactions</p>
 
-  <div class="container border border-dark">
-  <div class="roww bg-success d-flex flex-row justify-content-around py-5">
-    <div class=" text-white">Connection</div>
-   
-     <div class="text-white">Description</div>
-
-    <div class=" text-white">Amount</div>
+  <div class="container " style="line-height: 5">
+  
+<table class="table table-striped text-center border border-dark py-0">
+					<thead>
+					<tr class="text-white" id="greenbar">
+						<th>Lastname</th>
+			            <th>Firstname</th>
+						<th>Description</th>
+						<th>Amount</th>
+						<th>Currency</th>
+						<th>Date</th>
+					</tr>
+					</thead>
+					<tbody class="text-bold">
+					<tr th:each="transfert: ${transfertsPages}">
+						<td th:text="${transfert.sourceUser.lastname}"></td>
+					    <td th:text="${transfert.sourceUser.firstname}"></td>
+						<td th:text="${transfert.description}"></td>
+						<td th:text="${transfert.amount}"></td>
+								<td th:text="${transfert.currency}"></td>
+						<td th:text="${#dates.format(transfert.date, 'dd/MM/yyyy')}"></td>
+					</tr>
+					</tbody>
+				</table>
 </div>
-
-
-<div class="roww bg-light d-flex flex-row justify-content-around py-5">
-    <div class="">Hayley</div>
-   
-     <div class="">Restaurant bill share</div>
-
-    <div class="">10€</div>
-</div>
-
-<div class="roww d-flex flex-row justify-content-around py-5">
-    <div class="">Clara</div>
-   
-     <div class="">Trip money</div>
-
-    <div class="">25€</div>
-</div>
-
-
-<div class="roww bg-light d-flex flex-row justify-content-around py-5">
-    <div class="">Smith</div>
-   
-     <div class="">Movie tickets</div>
-
-    <div class="">8€</div>
-</div>
-</div>
-
     </section>
-   
-    <section class="pagination py-5 d-flex justify-content-center ">
-    <nav aria-label="...">
-        <ul class="pagination">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item active">
-            <a class="page-link" href="#">2 <span class="sr-only"></span></a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
+       <div class="row">
+				<ul class="nav nav-pills d-flex justify-content-center py-2">
+					<li th:each="page, status:${pages}">
+					<a th:class="${status.index == currentPage?'btn btn-success ms-2':'btn btn-outline-success ms-2'}"
+					th:text="${status.index}"
+			        th:href="@{transfer(page=${status.index})}"
+					
+					></a>
+					
+					</li>
+				</ul>
+			</div>	
+        
+
+<section class="deposit container col-11">
+  <p class="h4 text-dark fw-bold pt-5">My Deposits</p>
+
+  <div class="container" style="line-height: 5">
+  
+<table class="table table-striped text-center  border border-dark">
+					<thead >
+					<tr class="text-white bold" id="greenbar">
+						<th>Lastname</th>
+			            <th>Firstname</th>
+						<th>Description</th>
+						<th>Amount</th>
+						<th>Currency</th>
+						<th>Date</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="deposit: ${depositsPages}">
+						<td th:text="${deposit.sourceUser.lastname}"></td>
+					    <td th:text="${deposit.sourceUser.firstname}"></td>
+						<td th:text="${deposit.description}"></td>
+						<td th:text="${deposit.amount}"></td>
+							<td th:text="${deposit.currency}"></td>
+						<td th:text="${#dates.format(deposit.date, 'dd/MM/yyyy')}"></td>
+					</tr>
+					</tbody>
+				</table>
+</div>
     </section>
-
-
-
+     
+        
 
 </body>
 </html>

@@ -2,6 +2,9 @@ package com.paymybuddy.pay_my_buddy.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
@@ -49,8 +52,8 @@ public class Transaction implements Serializable {
   private String currency;
   
   @Column(name="date", nullable = false)
-  @Temporal(TemporalType.TIMESTAMP)
-  private Calendar dateTime;
+  @DateTimeFormat(pattern="yyyy-MM-dd")
+  private Date date;
   
  
   

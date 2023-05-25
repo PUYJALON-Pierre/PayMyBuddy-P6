@@ -1,6 +1,7 @@
 package com.paymybuddy.pay_my_buddy.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,6 +49,7 @@ public class MyUserDetailsService implements UserDetailsService {
     
     UserAccount newAccount = new UserAccount();
     newAccount.setEmail(registerDTO.getEmail());
+    newAccount.setOnlineStatus(true);
     newAccount.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
     
     User newUser = new User(registerDTO.getFirstname(), registerDTO.getLastname(),
@@ -84,4 +86,7 @@ public class MyUserDetailsService implements UserDetailsService {
     return connectedUSer;
   }
 
+  
+  
+  
 }

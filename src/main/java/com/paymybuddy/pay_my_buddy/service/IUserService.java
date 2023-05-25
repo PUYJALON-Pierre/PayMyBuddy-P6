@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.paymybuddy.pay_my_buddy.exception.FriendException;
+import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
 import com.paymybuddy.pay_my_buddy.model.Transfert;
 import com.paymybuddy.pay_my_buddy.model.User;
@@ -31,6 +32,8 @@ public interface IUserService {
   public List<Deposit> findAllDeposit(User user);
   
   public User getUserById(int id);
+  
+  public User getConnectedUser()throws UserAccountException;
   
   
   

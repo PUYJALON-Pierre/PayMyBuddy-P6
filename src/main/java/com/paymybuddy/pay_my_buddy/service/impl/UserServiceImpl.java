@@ -3,13 +3,17 @@ package com.paymybuddy.pay_my_buddy.service.impl;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.pay_my_buddy.exception.FriendException;
+import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
 import com.paymybuddy.pay_my_buddy.model.Transfert;
 import com.paymybuddy.pay_my_buddy.model.User;
+import com.paymybuddy.pay_my_buddy.model.UserAccount;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 import com.paymybuddy.pay_my_buddy.service.IUserService;
@@ -105,6 +109,7 @@ public class UserServiceImpl implements IUserService {
   @Override
   public List<User> findAllFriend(User user) {
     List <User> friendList = user.getFriendList();
+   
     return friendList;
   }
 
@@ -123,6 +128,20 @@ public class UserServiceImpl implements IUserService {
   @Override
   public User getUserById(int id) {
     return userRepository.findById(id).get();
+  }
+
+
+
+  @Override
+  public User getConnectedUser() throws UserAccountException { 
+ 
+      String username = SecurityContextHolder.getContext().getAuthentication().getName();
+      if (userAccountRepository.findByEmail(username).isEmpty()) {
+          throw new UserAccountException("Email :" + username + ", does not match any user.");
+      }
+      UserAccount userAccountConnected =  userAccountRepository.findByEmail(username).get();
+       return userRepository.findByUserAccount(userAccountConnected).get();
+  
   }
 
 }

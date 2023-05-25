@@ -44,14 +44,11 @@ height: 470px;
     margin-top: 10px;
  }
 
- .btn-success{
-    width: 180px;
-    font-size: 22px;
-}
 
 .btn-primary{
     width: 150px;
     font-size: 22px;
+
 }
 
 
@@ -66,14 +63,17 @@ height: 470px;
 
 #addConnectionButton {
    padding-top: 2px;
+   padding-right: 6px;
    width: 200px;
-   height: 30px;
+   height: 35px;
    font-size: 18px;
 
 }
 
 #payButton {
  margin-top: 47px;
+ width: 180px;
+ background-color: rgb(97, 180, 69);
 }
 
 #selectconnection{
@@ -84,3 +84,13 @@ height: 470px;
 
 }
 
+#greenbar{
+	
+   background-color: rgb(97, 180, 69);
+}
+
+#greenButton{
+
+   width: 180px;
+   font-size: 22px;
+}
