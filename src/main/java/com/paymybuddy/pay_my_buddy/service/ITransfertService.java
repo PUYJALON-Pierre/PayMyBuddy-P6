@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.paymybuddy.pay_my_buddy.DTO.TransferDTO;
 import com.paymybuddy.pay_my_buddy.exception.FriendException;
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.exception.UserBalanceException;
@@ -28,7 +29,7 @@ public interface ITransfertService {
   
   public void deleteTransfertBySourceUser(User sourceUser);
   
- public Transfert createTransfert(User connectedUser, Transfert transfert)throws UserBalanceException, UserAccountException;
+ public Transfert createTransfert(User connectedUser, TransferDTO transfertDto)throws UserBalanceException, UserAccountException;
  
   
 

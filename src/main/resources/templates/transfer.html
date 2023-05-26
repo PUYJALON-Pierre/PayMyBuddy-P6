@@ -61,7 +61,7 @@
             <p class="h4 col-9 text-dark fw-bold px-3">Send Money</p>
     
             <div class="col-3">
-                <button type="button" class="btn btn-primary m-auto" id="addConnectionButton">Add Connection</button>
+                <a type="button" class="btn btn-primary m-auto" id="addConnectionButton" href="/profile#addfriendlink" role="button">Add Connection</a>
                </div>
     </div>
     </section>
@@ -71,14 +71,14 @@
         <div class="row pt-4 "> 
             <div class="col input-group">
            
-           <select class="form-select" th:field="*{sourceUser}" name="SourceUserId" required>
+           <select class="form-select" th:field="*{recipient}" name="recipient" required>
 					<option value="0" selected>Select a Connection</option>
 					<option th:each="connection: ${connectionsList}"
-						th:value="${connection.userID}"
+						th:value="${connection.userAccount.email}"
 						th:text="${connection.userAccount.email}"></option>
 				</select>
 				<span class="has-errors"
-						th:if="${#fields.hasErrors('sourceUser')}" th:errors="*{sourceUser}"></span>
+						th:if="${#fields.hasErrors('recipient')}" th:errors="*{recipient}"></span>
             </div>
             <div class=" col input-group mb-1 d-flex flex-row m-auto ">
                 <div class="input-group-prepend">
@@ -96,7 +96,7 @@
                 </div>
             
                 <div class="col-3 m-auto">
-                    <button type="submit" name="transfer" class="btn btn-success" id="payButton">Pay</button>
+                    <button type="submit" onclick="return confirm('Are you sure that you want to make this transfer?')" name="transfer" class="btn btn-success" id="payButton">Pay</button>
                    </div>
                
     </div>

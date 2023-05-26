@@ -9,9 +9,11 @@ import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
 import com.paymybuddy.pay_my_buddy.model.Transfert;
 import com.paymybuddy.pay_my_buddy.model.User;
+import com.paymybuddy.pay_my_buddy.model.UserAccount;
 
 public interface IUserService {
 
+  public List<User> getUsersList();
   
   public Page<User> getUsers(int page);
   
@@ -35,6 +37,7 @@ public interface IUserService {
   
   public User getConnectedUser()throws UserAccountException;
   
+  public User getUserByAppAcount(UserAccount userAccount) throws UserAccountException;
   
   
 }

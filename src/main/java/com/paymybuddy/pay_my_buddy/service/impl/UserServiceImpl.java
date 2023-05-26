@@ -1,6 +1,7 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -142,6 +143,30 @@ public class UserServiceImpl implements IUserService {
       UserAccount userAccountConnected =  userAccountRepository.findByEmail(username).get();
        return userRepository.findByUserAccount(userAccountConnected).get();
   
+  }
+
+
+
+  @Override
+  public List<User> getUsersList() {
+ 
+    return userRepository.findAll();
+  }
+
+
+
+  @Override
+  public User getUserByAppAcount(UserAccount userAccount) throws UserAccountException {
+    
+    if(userRepository.findByUserAccount(userAccount).isEmpty()) {
+      
+      throw new UserAccountException("This user account, does not match any user.");
+      
+    }
+    else {
+      
+      return userRepository.findByUserAccount(userAccount).get();
+    }
   }
 
 }

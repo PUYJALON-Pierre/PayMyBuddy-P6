@@ -1,6 +1,7 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.paymybuddy.pay_my_buddy.DTO.TransferDTO;
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.exception.UserBalanceException;
 import com.paymybuddy.pay_my_buddy.model.AppAccount;
@@ -15,11 +17,18 @@ import com.paymybuddy.pay_my_buddy.model.Transfert;
 import com.paymybuddy.pay_my_buddy.model.User;
 import com.paymybuddy.pay_my_buddy.repository.TransfertRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
+import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 import com.paymybuddy.pay_my_buddy.service.ITransfertService;
+import com.paymybuddy.pay_my_buddy.service.IUserService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class TransfertServiceImpl implements ITransfertService {
 
+  @Autowired
+  UserRepository userRepository;
+  
   @Autowired
   UserAccountRepository userAccountRepository;
   
@@ -71,23 +80,29 @@ public class TransfertServiceImpl implements ITransfertService {
     transfertRepository.deleteBySourceUser(sourceUser);
 
   }
-
+//transactionnal?
   @Override
-  public Transfert createTransfert(User connectedUser, Transfert transfert)
+  public Transfert createTransfert(User connectedUser, TransferDTO transferDto)
       throws UserBalanceException, UserAccountException {
 
-    double amount = transfert.getAmount();
+    double amount = transferDto.getAmount();
     //checking amount is not negative before transfert
-    if (transfert.getAmount()<=0) { throw new UserBalanceException("You can't make a transfert with 0 or negative amount");
+    if (transferDto.getAmount()<=0) { throw new UserBalanceException("You can't make a transfert with 0 or negative amount");
 
     }
     
 
     //checking that recipient not null and exist
-    if (userAccountRepository.findByEmail(transfert.getRecipient().getUserAccount().getEmail()).isEmpty()) {   
+ 
+    if (userAccountRepository.findByEmail(transferDto.getRecipient()).isEmpty()) {   
       
       throw new UserAccountException("Recipient of this transfer cannot be find");
     }
+
+      //retrieving user from email
+      User recipientUser= userRepository.findByUserAccount(userAccountRepository.findByEmail(transferDto.getRecipient()).get()).get();
+      
+    
     
     //checking if userbalance okay for transfer
     double amountWithFee = amount + (amount*0.005);
@@ -110,14 +125,28 @@ public class TransfertServiceImpl implements ITransfertService {
 
      
      //add credit to new user balance
-      transfert.getRecipient().getAppAccount().setBalance(transfert.getRecipient().getAppAccount().getBalance()+amount);
+      recipientUser.getAppAccount().setBalance(recipientUser.getAppAccount().getBalance()+amount);
 
     }
    //besoin de save les 2 user pour garder la balance?
-    //saving transfert
- 
+    //setting date and usersource before saving transfert
+     userRepository.save(recipientUser);
+     userRepository.save(connectedUser);
+     
+     
+    //créer transfert à sauvegarder
+    Transfert newTransfert = new Transfert();
     
-    return transfertRepository.save(transfert);
+   newTransfert.setAmount(transferDto.getAmount());
+   newTransfert.setCurrency(transferDto.getCurrency());
+   newTransfert.setDate(new Date());
+   newTransfert.setDescription(transferDto.getDescription());
+   newTransfert.setFee(0.005);
+   newTransfert.setRecipient(recipientUser);
+   newTransfert.setSourceUser(connectedUser);
+   
+ //problem ici field"source-user doesnt have a default value sql
+    return transfertRepository.save(newTransfert);
   }
 
 

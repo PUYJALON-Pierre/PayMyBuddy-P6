@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.paymybuddy.pay_my_buddy.DTO.TransferDTO;
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.exception.UserBalanceException;
 import com.paymybuddy.pay_my_buddy.model.Deposit;
@@ -80,12 +81,12 @@ public String viewTransferPageModel (Model model, @RequestParam(name="page", def
   
   
   @PostMapping(value= "/transfer")
-  public String makeTransfert(@Valid @ModelAttribute("transferForm") Transfert transfert, BindingResult bindingResult, Model model) throws UserAccountException {
+  public String makeTransfert(@Valid @ModelAttribute("transferForm") TransferDTO transferDto, BindingResult bindingResult, Model model) throws UserAccountException {
     User connectedUser = iUserService.getConnectedUser();
     
     if(bindingResult.hasErrors())return "transfer";
     try {
-      iTransfertService.createTransfert(connectedUser, transfert);
+      iTransfertService.createTransfert(connectedUser, transferDto);
       
     }catch(UserBalanceException e) {
       
