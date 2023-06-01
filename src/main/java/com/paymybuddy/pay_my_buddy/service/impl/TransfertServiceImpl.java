@@ -119,7 +119,9 @@ public class TransfertServiceImpl implements ITransfertService {
     
       
      AppAccount updateAppAccount =  connectedUser.getAppAccount();
-     updateAppAccount.setBalance(updateAppAccount.getBalance()-(amountWithFee));
+     double result = updateAppAccount.getBalance()-(amountWithFee);
+     double arrondi =Math.round(result*100.0)/100.0;
+     updateAppAccount.setBalance(arrondi);
       
      connectedUser.setAppAccount(updateAppAccount);
 

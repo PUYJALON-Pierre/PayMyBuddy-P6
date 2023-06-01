@@ -1,0 +1,26 @@
+package com.paymybuddy.pay_my_buddy.DTO;
+
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.Data;
+
+@Data
+public class DepositDTO {
+
+  
+  @NotNull
+  @Positive
+  private double amount;
+  
+  @NotNull
+  private String iban;
+
+
+  private String description;
+  
+  @NotNull
+  private String currency;
+  
+  
+}

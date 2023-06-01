@@ -52,7 +52,7 @@
 </div>
     </section>
 
-    
+    <div class="py-2"> </div>
     <section class="title container col-11 pt-5">
         <div class="row"> 
       
@@ -60,8 +60,8 @@
             
             <p class="h4 col-9 text-dark fw-bold px-3">Send Money</p>
     
-            <div class="col-3">
-                <a type="button" class="btn btn-primary m-auto" id="addConnectionButton" href="/profile#addfriendlink" role="button">Add Connection</a>
+            <div class="col-3 ">
+                <a type="button" class="btn btn-primary mb-2" id="addConnectionButton" href="/profile#addfriendlink" role="button">Add Connection</a>
                </div>
     </div>
     </section>
@@ -69,13 +69,13 @@
     <section class="infos col-10 container bg-light border border-dark">
        <form th:object="${transferForm}" th:action="@{/transfer}" method="post" >
         <div class="row pt-4 "> 
-            <div class="col input-group">
+            <div class="col input-group pt-5 ">
            
-           <select class="form-select" th:field="*{recipient}" name="recipient" required>
+           <select class="form-select mb-1" th:field="*{recipient}" name="recipient" required  id="selectConnection">
 					<option value="0" selected>Select a Connection</option>
 					<option th:each="connection: ${connectionsList}"
 						th:value="${connection.userAccount.email}"
-						th:text="${connection.userAccount.email}"></option>
+						th:text="${connection.lastname +' '+ connection.firstname+' ' +' ('+connection.userAccount.email + ')'}"></option>
 				</select>
 				<span class="has-errors"
 						th:if="${#fields.hasErrors('recipient')}" th:errors="*{recipient}"></span>
@@ -118,8 +118,8 @@
 <table class="table table-striped text-center border border-dark py-0">
 					<thead>
 					<tr class="text-white" id="greenbar">
-						<th>Lastname</th>
-			            <th>Firstname</th>
+						<th>From</th>
+			            <th>To</th>
 						<th>Description</th>
 						<th>Amount</th>
 						<th>Currency</th>
@@ -128,8 +128,8 @@
 					</thead>
 					<tbody class="text-bold">
 					<tr th:each="transfert: ${transfertsPages}">
-						<td th:text="${transfert.sourceUser.lastname}"></td>
-					    <td th:text="${transfert.sourceUser.firstname}"></td>
+					    <td th:text="${transfert.sourceUser.lastname +' '+ transfert.sourceUser.firstname}"></td>
+					    <td th:text="${transfert.recipient.lastname + ' ' + transfert.recipient.firstname}"></td>
 						<td th:text="${transfert.description}"></td>
 						<td th:text="${transfert.amount}"></td>
 								<td th:text="${transfert.currency}"></td>
@@ -161,8 +161,8 @@
 <table class="table table-striped text-center  border border-dark">
 					<thead >
 					<tr class="text-white bold" id="greenbar">
-						<th>Lastname</th>
-			            <th>Firstname</th>
+						<th>IBAN</th>
+			            <th>User</th>
 						<th>Description</th>
 						<th>Amount</th>
 						<th>Currency</th>
@@ -171,11 +171,11 @@
 					</thead>
 					<tbody>
 					<tr th:each="deposit: ${depositsPages}">
-						<td th:text="${deposit.sourceUser.lastname}"></td>
-					    <td th:text="${deposit.sourceUser.firstname}"></td>
+						<td th:text="${deposit.bankAccountIBAN}"></td>
+						<td th:text="${deposit.sourceUser.lastname +' '+ deposit.sourceUser.firstname}"></td>
 						<td th:text="${deposit.description}"></td>
-						<td th:text="${deposit.amount}"></td>
-							<td th:text="${deposit.currency}"></td>
+						<td th:text="${deposit.operator +' '+ deposit.amount}"></td>
+						<td th:text="${deposit.currency}"></td>
 						<td th:text="${#dates.format(deposit.date, 'dd/MM/yyyy')}"></td>
 					</tr>
 					</tbody>
@@ -184,6 +184,31 @@
     </section>
      
         
-
+ <!-- == Footer == -->
+    
+  <div class="footer container py-5">
+    <div class="container py-5">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+            </a>
+            <span class="text-muted">&copy; 2023 Pay My Buddy, Inc</span>
+          </div>
+      
+          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3 fa-lg"><a href=”mon lien twitter” target=”_blank”>
+                <i class="bi bi-twitter text-dark fa-lg"></i>
+            </a></li>
+            <li class="ms-3 fa-lg"><a href=”mon lien linkedin” target=”_blank”>
+                <i class="bi bi-instagram text-dark fa-lg"></i>
+            </a></li>
+            <li class="ms-3 fa-lg"><a href=”mon lien linkedin” target=”_blank”>
+        <i class="bi bi-discord text-dark fa-lg"></i>
+            </a></li>
+          </ul>
+        </footer>
+      </div>
+  </div>
 </body>
 </html>

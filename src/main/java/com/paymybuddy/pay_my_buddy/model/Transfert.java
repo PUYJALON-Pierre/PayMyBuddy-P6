@@ -22,7 +22,7 @@ public class Transfert extends Transaction {
    */
   private static final long serialVersionUID = 6114246568584325063L;
   @ManyToOne (fetch = FetchType.LAZY)
-  @JoinColumn (name ="user_recipient", insertable=false, updatable=false, nullable = false)
+  @JoinColumn (name ="user_recipient", nullable = false)
   private User recipient;
   
 

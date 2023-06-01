@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserService {
   @Override
   public Page<User> getUsers(int page) {
 
-    return userRepository.findAll(PageRequest.of(page, 3));
+    return userRepository.findAll(PageRequest.of(page, 5));
   }
 
   @Override
@@ -116,6 +116,7 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   public List<Transfert> findAllTransfert(User user) {
+    
     List <Transfert> transfertList = user.getTransfertList();
     return transfertList;
   }

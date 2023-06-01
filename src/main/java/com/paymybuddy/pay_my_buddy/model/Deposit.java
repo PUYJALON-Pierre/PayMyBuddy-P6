@@ -23,6 +23,7 @@ public class Deposit extends Transaction {
   @Column(name="bank_account_IBAN", unique = true, length=50, nullable = false)
   private String bankAccountIBAN;
   
-
+  @Column(name="operator")
+private String operator;
   
 }

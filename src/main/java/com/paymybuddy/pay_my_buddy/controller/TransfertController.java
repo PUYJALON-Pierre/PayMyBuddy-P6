@@ -40,15 +40,8 @@ IUserService iUserService;
 public String viewTransferPageModel (Model model, @RequestParam(name="page", defaultValue="0") int currentPage) throws UserAccountException {
   
     User connectedUser = iUserService.getConnectedUser();
-    
-    List<Transfert>transfertsList= iUserService.findAllTransfert(connectedUser);
-    
-  //need sublist or else return all friends at once
-    Pageable pageable = PageRequest.of(currentPage, 5);
-    int start = (int)pageable.getOffset();
-    int end = Math.min((start + pageable.getPageSize()), transfertsList.size());
 
-    Page<Transfert> pageTransferts = new PageImpl<Transfert>(transfertsList.subList(start, end), pageable, transfertsList.size());
+    Page<Transfert> pageTransferts = iTransfertService.getTransfertsBetweenAnyUsers(connectedUser, connectedUser, currentPage);
    
    model.addAttribute("connectedUser", connectedUser);
    model.addAttribute("transfertsPages",pageTransferts.getContent());

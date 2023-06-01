@@ -51,49 +51,47 @@ CREATE TABLE IF NOT EXISTS `deposit` (
   `fee` double DEFAULT NULL,
   `bank_account_iban` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `source_user` int NOT NULL,
+  `operator` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `bank_account_iban` (`bank_account_iban`),
   KEY `FKr6332ul87j3osb8sw9kmmlcrv` (`source_user`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy.deposit : 10 rows
 /*!40000 ALTER TABLE `deposit` DISABLE KEYS */;
-INSERT INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`) VALUES
-	(1, 120, '$', '2020-04-27 17:39:57', NULL, 0.005, 'FR332500000550', 1),
-	(2, 50, '$', '2020-04-27 17:43:13', 'deposit', 0.005, 'BE784525468541', 2),
-	(3, 70, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR875155633344', 3),
-	(4, 50, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR784520943314', 4),
-	(5, 10, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR365128963344', 5),
-	(6, 50, '$', '2021-04-27 17:52:02', NULL, 0.005, 'FR441596532547', 6),
-	(7, 1000, '$', '2021-07-27 17:52:02', 'deposit', 0.005, 'FR778596345824', 7),
-	(8, 550, '$', '2019-07-27 17:52:02', 'start', 0.005, 'FR115962465638', 8),
-	(9, 50, '$', '2021-07-17 17:52:02', 'first deposit', 0.005, 'FR236154258612', 9),
-	(10, 30, '$', '2020-03-27 17:52:02', 'first deposit', 0.005, 'FR236963695412', 10);
+INSERT INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`, `operator`) VALUES
+	(1, 120, '$', '2020-04-27 17:39:57', NULL, 0.005, 'FR332500000550', 1, '+'),
+	(2, 50, '$', '2020-04-27 17:43:13', 'deposit', 0.005, 'BE784525468541', 2, '+'),
+	(3, 70, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR875155633344', 3, '+'),
+	(4, 50, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR784520943314', 4, '+'),
+	(5, 10, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR365128963344', 5, '+'),
+	(6, 50, '$', '2021-04-27 17:52:02', NULL, 0.005, 'FR441596532547', 6, '+'),
+	(7, 1000, '$', '2021-07-27 17:52:02', 'deposit', 0.005, 'FR778596345824', 7, '+'),
+	(8, 550, '$', '2019-07-27 17:52:02', 'start', 0.005, 'FR115962465638', 8, '+'),
+	(9, 50, '$', '2021-07-17 17:52:02', 'first deposit', 0.005, 'FR236154258612', 9, '+'),
+	(10, 30, '$', '2020-03-27 17:52:02', 'first deposit', 0.005, 'FR236963695412', 10, '+');
 /*!40000 ALTER TABLE `deposit` ENABLE KEYS */;
 
 -- Listage de la structure de table pay_my_buddy. friend
 CREATE TABLE IF NOT EXISTS `friend` (
-  `friendship_id` int NOT NULL,
   `user_id` int NOT NULL,
   `friend_id` int NOT NULL,
-  UNIQUE KEY `firendship_id` (`friendship_id`),
   KEY `FKf9qk6e95h3da7o1u83ihtwrqa` (`friend_id`),
   KEY `FK3uu8s7yyof1qmenthngm24hry` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy.friend : 10 rows
 /*!40000 ALTER TABLE `friend` DISABLE KEYS */;
-INSERT INTO `friend` (`friendship_id`, `user_id`, `friend_id`) VALUES
-	(1, 1, 2),
-	(2, 1, 8),
-	(3, 2, 1),
-	(4, 3, 4),
-	(5, 4, 3),
-	(6, 5, 6),
-	(7, 6, 5),
-	(8, 8, 1),
-	(9, 9, 10),
-	(10, 10, 9);
+INSERT INTO `friend` (`user_id`, `friend_id`) VALUES
+	(1, 2),
+	(1, 8),
+	(2, 1),
+	(3, 4),
+	(4, 3),
+	(5, 6),
+	(6, 5),
+	(8, 1),
+	(9, 10),
+	(10, 9);
 /*!40000 ALTER TABLE `friend` ENABLE KEYS */;
 
 -- Listage de la structure de table pay_my_buddy. transfert
@@ -168,15 +166,15 @@ CREATE TABLE IF NOT EXISTS `user_account` (
 -- Listage des données de la table pay_my_buddy.user_account : 10 rows
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
 INSERT INTO `user_account` (`user_account_id`, `email`, `last_connection`, `online_status`, `password`) VALUES
-	(1, 'emmabolt@gmail.com', '2022-04-21 17:06:34', b'0', '$2y$10$LU7mY5XJuA7vygZqAVzureDTz/9kUHi8EfaI7zjnp3PM.NlPbNHWm'),
+	(1, 'emmabolt@gmail.com', '2022-04-21 17:06:34', b'1', '$2y$10$LU7mY5XJuA7vygZqAVzureDTz/9kUHi8EfaI7zjnp3PM.NlPbNHWm'),
 	(2, 'edenarnold@gmail.com', '2023-07-11 17:10:54', b'1', '$2y$10$R7napE5jfZWi5NtMzVIS2.Kk4l3hITvSxe.YsaK9Gygb9mcKsqppi'),
-	(3, 'isaacshelby@gmail.com', '2019-03-01 17:11:58', b'0', '$2y$10$bxAe8pg6JACDIxulxXs3qOGEfHMfiAlmg9wP6S4uO4vdE.roi/4fi'),
-	(4, 'annamoreau@gmail.com', '2018-06-11 17:13:04', b'0', '$2y$10$jiIPFEEqbDv4wrTl0LymZOhjWZEENKHU/EJ.UiPp0Ea5f6PXDZG7m'),
-	(5, 'martaferet@gmail.com', '2023-01-22 07:13:56', b'0', '$2y$10$Bax38RGWksWcoWr3pKtPQewBfBAfmwSqtuP/R41AsEf41OKqHTBnu'),
-	(6, 'timblond@gmail.com', '2023-03-24 17:14:57', b'0', '$2y$10$R3U3ldJQ6e/a.alhr/0pPOiMmGS0ZIYm6a412sW8kjt1Yi/xCSvXi'),
-	(7, 'jacqueshugues@gmail.com', '2023-02-09 17:16:20', b'0', '$2y$10$DvCGBXALqvH0iF2kCdLyK.S50.r3uC41fpz4L46utelb1atrNunFi'),
-	(8, 'kylianmbappe@gmail.com', '2023-01-14 17:18:53', b'0', '$2y$10$rVYl7ymyRXlKPxMMNqMY8.f/fDlJnPv7yJXL2oW6kZhsf0SPStCcy'),
-	(9, 'florianmessier@gmail.com', '2023-04-03 17:19:47', b'0', '$2y$10$h8Zd6n/RNEP2FgAI2KuDwuaUH/S5B0NUOo9SLRvpNrEUDlJvowudK'),
+	(3, 'isaacshelby@gmail.com', '2019-03-01 17:11:58', b'1', '$2y$10$bxAe8pg6JACDIxulxXs3qOGEfHMfiAlmg9wP6S4uO4vdE.roi/4fi'),
+	(4, 'annamoreau@gmail.com', '2018-06-11 17:13:04', b'1', '$2y$10$jiIPFEEqbDv4wrTl0LymZOhjWZEENKHU/EJ.UiPp0Ea5f6PXDZG7m'),
+	(5, 'martaferet@gmail.com', '2023-01-22 07:13:56', b'1', '$2y$10$Bax38RGWksWcoWr3pKtPQewBfBAfmwSqtuP/R41AsEf41OKqHTBnu'),
+	(6, 'timblond@gmail.com', '2023-03-24 17:14:57', b'1', '$2y$10$R3U3ldJQ6e/a.alhr/0pPOiMmGS0ZIYm6a412sW8kjt1Yi/xCSvXi'),
+	(7, 'jacqueshugues@gmail.com', '2023-02-09 17:16:20', b'1', '$2y$10$DvCGBXALqvH0iF2kCdLyK.S50.r3uC41fpz4L46utelb1atrNunFi'),
+	(8, 'kylianmbappe@gmail.com', '2023-01-14 17:18:53', b'1', '$2y$10$rVYl7ymyRXlKPxMMNqMY8.f/fDlJnPv7yJXL2oW6kZhsf0SPStCcy'),
+	(9, 'florianmessier@gmail.com', '2023-04-03 17:19:47', b'1', '$2y$10$h8Zd6n/RNEP2FgAI2KuDwuaUH/S5B0NUOo9SLRvpNrEUDlJvowudK'),
 	(10, 'leslieberroua@gmail.com', '2020-04-21 17:20:37', b'0', '$2y$10$4ElhS4vHoVPnx29XlWP4eOmZFswW0e9T8sOLtKAK0aPvte8GkmQ3i');
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 
@@ -211,18 +209,18 @@ CREATE TABLE IF NOT EXISTS `deposit` (
   `fee` double DEFAULT NULL,
   `bank_account_iban` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `source_user` int NOT NULL,
+  `operator` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `bank_account_iban` (`bank_account_iban`),
   KEY `FKr6332ul87j3osb8sw9kmmlcrv` (`source_user`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table pay_my_buddy_test.deposit : 4 rows
 /*!40000 ALTER TABLE `deposit` DISABLE KEYS */;
-INSERT INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`) VALUES
-	(1, 120, '$', '2020-04-27 17:39:57', NULL, 0.005, 'FR332500000550', 1),
-	(2, 50, '$', '2020-04-27 17:43:13', 'deposit', 0.005, 'BE784525468541', 2),
-	(3, 70, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR875155633344', 3),
-	(4, 50, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR784520943314', 4);
+INSERT INTO `deposit` (`id`, `amount`, `currency`, `date`, `description`, `fee`, `bank_account_iban`, `source_user`, `operator`) VALUES
+	(1, 120, '$', '2020-04-27 17:39:57', NULL, 0.005, 'FR332500000550', 1, '+'),
+	(2, 50, '$', '2020-04-27 17:43:13', 'deposit', 0.005, 'BE784525468541', 2, '+'),
+	(3, 70, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR875155633344', 3, '+'),
+	(4, 50, '$', '2020-01-27 17:43:13', NULL, 0.005, 'FR784520943314', 4, '+');
 /*!40000 ALTER TABLE `deposit` ENABLE KEYS */;
 
 -- Listage de la structure de table pay_my_buddy_test. friend

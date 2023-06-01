@@ -1,293 +1,348 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeLeaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pay My Buddy Web Interface (Profile)</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay My Buddy Web Interface (Profile)</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
-    <section class="navigation">
-        <nav class="navbar justify-content-between py-2">
-            <div>
-                <a class="navbar-brand fw-bold px-3">
-                    <button type="button" class="btn btn-success"  id="greenButton">Pay My Buddy</button>
-                </a>
-            </div>
-            <nav class="navbar navbar-expand navbar-light">
-                <div class="container">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link fw-bold" href="/home">Home</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link fw-bold" href="/transfer">Transfer</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link text-primary fw-bold" href="/profile">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-bold" href="/contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link fw-bold" href="/logout">Log out</a>
-                    </li>
-                </ul>
-                </div>
-            </nav>
-          </nav>
-    </section>
+	<section class="navigation">
+		<nav class="navbar justify-content-between py-2">
+			<div>
+				<a class="navbar-brand fw-bold px-3">
+					<button type="button" class="btn btn-success" id="greenButton">Pay
+						My Buddy</button>
+				</a>
+			</div>
+			<nav class="navbar navbar-expand navbar-light">
+				<div class="container">
+					<ul class="navbar-nav">
+						<li class="nav-item"><a class="nav-link fw-bold" href="/home">Home</a>
+						</li>
+						<li class="nav-item active"><a class="nav-link fw-bold"
+							href="/transfer">Transfer</a></li>
+						<li class="nav-item "><a
+							class="nav-link text-primary fw-bold" href="/profile">Profile</a>
+						</li>
+						<li class="nav-item"><a class="nav-link fw-bold"
+							href="/contact">Contact</a></li>
+						<li class="nav-item"><a class="nav-link fw-bold"
+							href="/logout">Log out</a></li>
+					</ul>
+				</div>
+			</nav>
+		</nav>
+	</section>
 
-    <section class="path">
-        <div class="container-fluid bg-light py-2">
-        <div class="row d-flex "> 
-        <div class="col-1 text-primary px-5">Home</div>
-        <div class="col-1 text-primary px-5">/</div>
-        <div class="col-1 text-dark">Profile</div>
-    </div>
-</div>
-    </section>
+	<section class="path">
+		<div class="container-fluid bg-light py-2">
+			<div class="row d-flex ">
+				<div class="col-1 text-primary px-5">Home</div>
+				<div class="col-1 text-primary px-5">/</div>
+				<div class="col-1 text-dark">Profile</div>
+			</div>
+		</div>
+	</section>
 
 
-    <section class="title container pt-5 col-11">
-        <div class="row"> 
+	<section class="title container pt-5 col-11">
+		<div class="row">
 
-            <p class="h4 col-9 text-dark fw-bold px-3">Balance</p>
-    
-          
-    </div>
-
-    <section class="infos container bg-light border border-dark">
-
-        <div class="row2 col-12 d-flex flex-row gy-0 py-5"> 
-            <div class="col-12 form-group m-auto ">
-                <div class="container d-flex justify-content-center ">
-                    <div class="col-10 card p-3">
-                      <div class="d-flex flex-row justify-content-between text-align-center">
-                        <img src="images/logo.png" class="w-25">
-                        <i class="fas fa-ellipsis-v"></i>
-                      </div>
-                      <p class="text-dark fw-bold">Pay My Buddy Account</p>
-                      <div class="card-bottom pt-3 px-3 mb-2 bg-light rounded border border-success">
-                        <div class="d-flex flex-row justify-content-around">
-                          <div class="d-flex flex-row"><span>Balance amount :</span>
-                          <p class="text-dark fw-bold h5 px-4" th:text="${connectedUser.appAccount.balance}"></p><p>&euro;</p></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-    
-             
-            </div>
-            
-            <div class="row2 d-flex flex-row justify-content-end"> 
-              
-                <div class="col-3 py-3">
-                    <button type="button" class="btn btn-success m-auto" id="addConnectionButton">Deposit Money</button>
-                   </div>
-                   <div class="col-3 py-3">
-                    <button type="button" class="btn btn-warning m-auto" id="addConnectionButton">Withdraw Money</button>
-                   </div>
-                </div>
-      
-        </section>
+			<p class="h4 col-9 text-dark fw-bold px-3">Balance</p>
 
 
+		</div>
 
-    </section>
+		<section class="infos container bg-light border border-dark">
+
+			<div class="row2 col-12 d-flex flex-row gy-0 py-5">
+				<div class="col-12 form-group m-auto ">
+					<div class="container d-flex justify-content-center ">
+						<div class="col-10 card p-3">
+							<div
+								class="d-flex flex-row justify-content-between text-align-center">
+								<img src="images/logo.png" class="w-25"> <i
+									class="fas fa-ellipsis-v"></i>
+							</div>
+							<p class="text-dark fw-bold">Pay My Buddy Account</p>
+							<div
+								class="card-bottom pt-3 px-3 mb-2 bg-light rounded border border-success">
+								<div class="d-flex flex-row justify-content-around">
+									<div class="d-flex flex-row">
+										<span>Balance amount :</span>
+										<p class="text-dark fw-bold h5 px-4"
+											th:text="${connectedUser.appAccount.balance}"></p>
+										<p>&euro;</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
-    <section class="title container pt-5 col-11 ">
-        <div class="row "> 
-            <p class="h4 col-9 text-dark fw-bold px-3">My informations</p>
+			</div>
 
-            <section class="infos container bg-light border border-dark">
-                <div class="container py-5">
-                  <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col col-lg-9 mb-4 mb-lg-0">
+			<div class="row2 d-flex flex-row justify-content-end">
 
+				<div class="col-3 py-3">
+					<a type="button" class="btn btn-success m-auto"
+						id="addConnectionButton" href="/deposit" >Deposit Money</a>
+				</div>
+				<div class="col-3 py-3">
+					<a type="button" class="btn btn-primary m-auto"
+						id="addConnectionButton" href="/withdraw">Withdraw Money</a>
+				</div>
+			</div>
 
-                        
-                      <div class="card mb-3" style="border-radius: .5rem;">
-                        
-                        <div class="row g-0">
-                          <div class="col-md-4 gradient-custom text-center text-white py-5"
-                            style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                            <img src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
-                              alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                            <h5 class="text-dark px-3" th:text="${connectedUser.firstname}"></h5>
-                           <h5 class="text-dark px-3" th:text="${connectedUser.lastname}"></h5>
-                            <p class="text-dark py-3" th:text="${#dates.format(connectedUser.birthdate, 'dd/MM/yyyy')}"></p>
-                            <i class="far fa-edit mb-5"></i>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body p-4">
-                              <h6>Email</h6>
-                              <p class="text-muted" th:text="${connectedUser.userAccount.email}"></p>
-                              <hr class="mt-0 mb-4">
-                              <div class="row pt-1">
-                                <div class="col-6 mb-3">
-                                  <h6>Firstname</h6>
-                                  <p class="text-muted" th:text="${connectedUser.firstname}"></p>
-                                </div>
-                                <div class="col-6 mb-3">
-                                  <h6>Lastname</h6>
-                                  <p class="text-muted" th:text="${connectedUser.lastname}"></p>
-                                </div>
-                              </div>
-                              <h6>Number of friends</h6>
-                              <p class="text-muted" th:text="${connectedUser.friendList.size}"></p>
-                              <hr class="mt-0 mb-4">
-                              <div class="row pt-1">
-                                <div class="col-6 mb-3">
-                                  <h6>Status Account</h6>
-                                 <span th:if="${connectedUser.userAccount.onlineStatus == 'true'}">Active</span>
-                                <span th:unless="${connectedUser.userAccount.onlineStatus == 'false'}">Inactive</span>
-                                </div>
-                                <div class="col-6 mb-3">
-                                  <h6>Password</h6>
-                                  <p class="text-muted">*********</p>
-                                </div>
-                              </div>
-                              <div class="d-flex justify-content-start">
-                                <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
-                                <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
-                                <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
-
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class=" py-3 d-flex justify-content-end ">
-                    <button type="button" class="btn btn-warning " id="addConnectionButton"> Update informations</button>
-                   </div>
-                </div>
-
-              </section>
+		</section>
 
 
 
+	</section>
 
 
-    </div>
-    </section>
+	<section class="title container pt-5 col-11 ">
+		<div class="row ">
+			<p class="h4 col-9 text-dark fw-bold px-3">My informations</p>
+
+			<section class="infos container bg-light border border-dark">
+				<div class="container py-5">
+					<div
+						class="row d-flex justify-content-center align-items-center h-100">
+						<div class="col col-lg-9 mb-4 mb-lg-0">
 
 
 
-    <section class="title container pt-5" id="addfriendlink">
-        <div class="row"> 
-      
+							<div class="card mb-3" style="border-radius: .5rem;">
 
-            
-            <p class="h4 col-9 text-dark fw-bold pt-5 col-11">Friends List</p>
-    
-           
-    </div>
-    <div class="col-10 py-2" style="line-height: 1">
-        <form th:action="@{/userSearch}" method="get">
-           <div class="form-group d-flex flex-row">
-           <label class="col-1 mb-2 font-weight-bold">Keyword : </label>
-            <input type="text" name ="Keyword" th:value="${keyWord}" class="col-3 form-control rounded" placeholder="Enter Email..." aria-label="Search" aria-describedby="search-addon" />
-            <span class="input-group-text border-0" id="search-addon"> </span>
-            <button class="col-1 " type="submit">Search Friend</button>
-           </div>
-               </form>  </div>
-    </section>
-    
-    <section class="friends container">
-         <div class="container py-3">
-           <table class="table table-striped border border-dark text-center">
-					<thead class="table-dark">
-					<tr class="table lightblue">
-						<th>Result</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr class="table lightblue">
-						<td th:value="${userSearch}"></td>
-					<td>
-						 <a type="button" class="btn btn-primary m-auto" id="addConnectionButton" href="/profile" role="button">Add Friend +</a>
-						</td>
-					</tr>
-					</tbody>
-				</table>
+								<div class="row g-0">
+									<div
+										class="col-md-4 gradient-custom text-center text-white py-5"
+										style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+										<img
+											src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+											alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+										<h5 class="text-dark px-3"
+											th:text="${connectedUser.firstname}"></h5>
+										<h5 class="text-dark px-3" th:text="${connectedUser.lastname}"></h5>
+										<p class="text-dark py-3"
+											th:text="${#dates.format(connectedUser.birthdate, 'dd/MM/yyyy')}"></p>
+										<i class="far fa-edit mb-5"></i>
+									</div>
+									<div class="col-md-8">
+										<div class="card-body p-4">
+											<h6>Email</h6>
+											<p class="text-muted"
+												th:text="${connectedUser.userAccount.email}"></p>
+											<hr class="mt-0 mb-4">
+											<div class="row pt-1">
+												<div class="col-6 mb-3">
+													<h6>Firstname</h6>
+													<p class="text-muted" th:text="${connectedUser.firstname}"></p>
+												</div>
+												<div class="col-6 mb-3">
+													<h6>Lastname</h6>
+													<p class="text-muted" th:text="${connectedUser.lastname}"></p>
+												</div>
+											</div>
+											<h6>Number of friends</h6>
+											<p class="text-muted"
+												th:text="${connectedUser.friendList.size}"></p>
+											<hr class="mt-0 mb-4">
+											<div class="row pt-1">
+												<div class="col-6 mb-3">
+													<h6>Status Account</h6>
 
-            </div>
-        
-      
-<div class="container py-3" style="line-height: 5">
-<table class="table table-striped text-center  border border-dark">
-					<thead class="table-dark">
+													<span th:switch="${connectedUser.userAccount.onlineStatus}">
+														<i th:case="true" >Active</i>
+														<i th:case="false" >Inactive</i>
+													</span>
+
+												</div>
+												<div class="col-6 mb-3">
+													<h6>Password</h6>
+													<p class="text-muted">*********</p>
+												</div>
+											</div>
+											<div class="d-flex justify-content-start">
+												<a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
+												<a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a> <a
+													href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class=" py-3 d-flex justify-content-end ">
+						<a type="button" class="btn btn-warning "
+							id="addConnectionButton" href="/update" >Update informations</a>
+					</div>
+				</div>
+
+			</section>
+
+
+
+
+
+		</div>
+	</section>
+
+
+
+	<section class="title container pt-5">
+		<div class="row">
+
+
+
+			<p class="h4 col-9 text-dark fw-bold pt-5 col-11">Friends List</p>
+
+
+		</div>
+	</section>
+
+	<section class="friends container">
+
+		<div class="container py-3" style="line-height: 5">
+			<table class="table table-striped text-center  border border-dark">
+				<thead class="table-dark">
 					<tr class="text-white">
 						<th>Firstname</th>
 						<th>Lastname</th>
 						<th>Email</th>
 						<th></th>
 					</tr>
-					</thead>
-					<tbody>
+				</thead>
+				<tbody>
 					<tr th:each="user : ${friendsPages}">
 						<td th:text="${user.firstname}"></td>
-							<td th:text="${user.lastname}"></td>
+						<td th:text="${user.lastname}"></td>
 						<td th:text="${user.userAccount.email}"></td>
-					
+
 						<td>
-					 
-                <a type="button" onclick="return confirm('Are you sure that you want to delete this friend?')" class="btn btn-danger btn-sm" th:href="@{delete(id=${user.userID})}">Remove</a>
+							<form
+								th:action="@{/deletefriend(id=${user.userID}, page=${currentPage})}"
+								method="post">
+								<button type="submit"
+									onclick="return confirm('Are you sure that you want to delete this friend?')"
+									class="btn btn-danger btn-sm">Remove</button>
+							</form>
 						</td>
 					</tr>
-					</tbody>
-				</table>
-</div>
- 	<div class="row">
-				<ul class="nav nav-pills d-flex justify-content-center py-2">
-					<li th:each="page, status:${pages}">
-					<a th:class="${status.index == currentPage?'btn btn-dark ms-2':'btn btn-outline-dark ms-2'}"
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<ul class="nav nav-pills d-flex justify-content-center py-2">
+				<li th:each="page, status:${pages}"><a
+					th:class="${status.index == currentPage?'btn btn-dark ms-2':'btn btn-outline-dark ms-2'}"
 					th:text="${status.index}"
-			        th:href="@{profile(page=${status.index})}"
-					
-					></a>
-					
-					</li>
+					th:href="@{profile(page=${status.index})}"></a></li>
+			</ul>
+		</div>
+
+
+
+	</section>
+
+	<section class="title container " id="addfriendlink">
+		<div class="row">
+
+
+
+			<p class="h4 col-9 text-dark fw-bold pt-5 col-11">Add Friends</p>
+
+
+		</div>
+		<div class="col-10 py-2" style="line-height: 1">
+			<form th:action="@{/userSearch}" method="get">
+				<div class="form-group d-flex flex-row">
+					<label class="col-1 mb-2 font-weight-bold">Keyword : </label>
+					<input
+						type="text" name="keyWord" th:value="${keyWord}"
+						class="col-3 form-control rounded" placeholder="Enter Email..."
+						aria-label="Search" aria-describedby="search-addon" /> <span
+						class="input-group-text border-0" id="search-addon"> </span>
+					<button class="col-1 " type="submit">Search Friend</button>
+				</div>
+			</form>
+		</div>
+		<div class="container py-3" style="line-height: 5">
+			<table class="table table-striped text-center  border border-dark">
+				<thead class="table-dark">
+					<tr class="text-white">
+						<th>Firstname</th>
+						<th>Lastname</th>
+						<th>Email</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${allUsers}">
+						<td th:text="${user.firstname}"></td>
+						<td th:text="${user.lastname}"></td>
+						<td th:text="${user.userAccount.email}"></td>
+						<td>
+							<form
+								th:action="@{/addfriend(id=${user.userID}, page=${currentPageUsers})}"
+								method="post">
+								<button type="submit"
+									onclick="return confirm('Are you sure that you want to add this friend?')"
+									class="btn btn-primary btn-sm" >Add Friend</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+				<div class="row">
+			<ul class="nav nav-pills d-flex justify-content-center py-2">
+				<li th:each="pageUsers, status:${pagesUsers}"><a
+					th:class="${status.index == currentPageUsers?'btn btn-dark ms-2':'btn btn-outline-dark ms-2'}"
+					th:text="${status.index}"
+					th:href="@{profile(pageUsers=${status.index})}"></a></li>
+			</ul>
+		</div>
+	</section>
+	<!-- == Footer == -->
+
+	<div class="footer container py-5">
+		<div class="container py-5">
+			<footer
+				class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+				<div class="col-md-4 d-flex align-items-center">
+					<a href="/"
+						class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+						<svg class="bi" width="30" height="24">
+							<use xlink:href="#bootstrap" /></svg>
+					</a> <span class="text-muted">&copy; 2023 Pay My Buddy, Inc</span>
+				</div>
+
+				<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+					<li class="ms-3 fa-lg"><a href=”mon lien
+						twitter” target=”_blank”> <i
+							class="bi bi-twitter text-dark fa-lg"></i>
+					</a></li>
+					<li class="ms-3 fa-lg"><a href=”mon lien
+						linkedin” target=”_blank”> <i
+							class="bi bi-instagram text-dark fa-lg"></i>
+					</a></li>
+					<li class="ms-3 fa-lg"><a href=”mon lien
+						linkedin” target=”_blank”> <i
+							class="bi bi-discord text-dark fa-lg"></i>
+					</a></li>
 				</ul>
-			</div>	
-
-       
-
-    </section>
-  <!-- == Footer == -->
-    
-  <div class="footer container py-5">
-    <div class="container py-5">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <div class="col-md-4 d-flex align-items-center">
-            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-              <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-            </a>
-            <span class="text-muted">&copy; 2023 Pay My Buddy, Inc</span>
-          </div>
-      
-          <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-            <li class="ms-3 fa-lg"><a href=”mon lien twitter” target=”_blank”>
-                <i class="bi bi-twitter text-dark fa-lg"></i>
-            </a></li>
-            <li class="ms-3 fa-lg"><a href=”mon lien linkedin” target=”_blank”>
-                <i class="bi bi-instagram text-dark fa-lg"></i>
-            </a></li>
-            <li class="ms-3 fa-lg"><a href=”mon lien linkedin” target=”_blank”>
-        <i class="bi bi-discord text-dark fa-lg"></i>
-            </a></li>
-          </ul>
-        </footer>
-      </div>
-  </div>
+			</footer>
+		</div>
+	</div>
 </body>
 </html>

@@ -45,7 +45,7 @@ height: 470px;
  }
 
 
-.btn-primary{
+ #loginButton{
     width: 150px;
     font-size: 22px;
 
@@ -96,6 +96,7 @@ height: 470px;
 }
 
 #selectConnection{
-
+  
    height: 45px;
 }
+

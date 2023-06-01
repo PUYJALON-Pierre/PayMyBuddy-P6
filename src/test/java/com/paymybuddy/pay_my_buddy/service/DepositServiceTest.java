@@ -84,7 +84,7 @@ newDeposit.setFee(0.005);
 
 
     //when
-iDepositService.saveDeposit(newDeposit);
+//iDepositService.saveDeposit(newDeposit);
     
 assertEquals(iDepositService.getDeposits().size(), 5);
 

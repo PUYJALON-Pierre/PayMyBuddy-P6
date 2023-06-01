@@ -39,7 +39,7 @@ public class Transaction implements Serializable {
   private double amount;
   
   @ManyToOne (fetch = FetchType.LAZY)
-  @JoinColumn(name ="source_user", insertable=false, updatable=false, nullable = false)
+  @JoinColumn(name ="source_user", nullable = false)
   private User sourceUser;
   
   @Column(name="description")
