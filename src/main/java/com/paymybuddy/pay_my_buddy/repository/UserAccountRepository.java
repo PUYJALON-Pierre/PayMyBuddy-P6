@@ -7,20 +7,44 @@ import org.springframework.stereotype.Repository;
 
 import com.paymybuddy.pay_my_buddy.model.UserAccount;
 
+/**
+ * Repository of UserAccount in Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Repository
-public interface UserAccountRepository extends JpaRepository<UserAccount, Integer>{
+public interface UserAccountRepository extends JpaRepository<UserAccount, Integer> {
 
+  /**
+   * Find a UserAccount by his id
+   * 
+   * @param id - int
+   * @return UserAccount
+   */
+  public Optional<UserAccount> findById(int id);
 
-public Optional<UserAccount> findById(int id);
-  
+  /**
+   * Find a UserAccount by his email
+   * 
+   * @param email - String
+   * @return UserAccount
+   */
+  public Optional<UserAccount> findByEmail(String email);
 
-public Optional<UserAccount> findByEmail(String email);
+  /**
+   * Delete a UserAccount by his id
+   * 
+   * @param id - int
+   */
+  public Optional<UserAccount> deleteById(int id);
 
-
-public Optional<UserAccount> deleteById(int id);
-
-
-public Optional<UserAccount> deleteByEmail(String email);
-
+  /**
+   * Delete a UserAccount by his email
+   * 
+   * @param email - String
+   * @return UserAccount
+   */
+  public Optional<UserAccount> deleteByEmail(String email);
 
 }

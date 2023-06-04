@@ -11,6 +11,12 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Model class for AppAccount in Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Data @Entity @NoArgsConstructor @Table(name = "app_account")
 public class AppAccount implements Serializable {
 
@@ -24,6 +30,5 @@ public class AppAccount implements Serializable {
 
   @Column(name = "balance")
   private double balance;
-
 
 }

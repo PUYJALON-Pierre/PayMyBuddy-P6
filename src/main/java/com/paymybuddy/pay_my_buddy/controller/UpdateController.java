@@ -17,6 +17,12 @@ import com.paymybuddy.pay_my_buddy.service.IUserService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller class for Updating connected user profile in Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Controller
 public class UpdateController {
 
@@ -26,6 +32,12 @@ public class UpdateController {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  /**
+   * Get update page model for connected user
+   *
+   * @param model - Model
+   * @return update (html template)
+   */
   @GetMapping(value = "/update")
 
   public String viewUpdatePageModel(Model model) {
@@ -34,8 +46,16 @@ public class UpdateController {
     return "update";
   }
 
+  /**
+   * Update userConnected Profile
+   *
+   * @param model - Model
+   * @param update - UpdateDTO
+   * @param bindingResult - BindingResult
+   * @return profile or update (html template)
+   */
   @PostMapping("/update")
-  public String registerUser(@Valid @ModelAttribute("update") UpdateDTO update,
+  public String updateUserConnected(@Valid @ModelAttribute("update") UpdateDTO update,
       BindingResult bindingResult, Model model) {
 
     if (bindingResult.hasErrors())

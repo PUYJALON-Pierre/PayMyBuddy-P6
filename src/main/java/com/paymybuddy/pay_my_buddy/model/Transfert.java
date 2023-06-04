@@ -9,21 +9,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Data
-@Entity
-@EqualsAndHashCode(callSuper=false)
-@NoArgsConstructor
-@Table (name ="transfert")
+/**
+ * Model class for Transfer in Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
+@Data @Entity @EqualsAndHashCode(callSuper = false) @NoArgsConstructor @Table(name = "transfert")
 public class Transfert extends Transaction {
 
-  
   /**
    * 
    */
   private static final long serialVersionUID = 6114246568584325063L;
-  @ManyToOne (fetch = FetchType.LAZY)
-  @JoinColumn (name ="user_recipient", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_recipient", nullable = false)
   private User recipient;
-  
 
 }

@@ -1,10 +1,12 @@
 package com.paymybuddy.pay_my_buddy.exception;
 
-
-
+/**
+ * Exception class concerning balance
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 public class UserBalanceException extends Exception {
-
-
 
   /**
    * 
@@ -13,10 +15,7 @@ public class UserBalanceException extends Exception {
 
   public UserBalanceException(String message) {
     super(message);
-    
+
   }
-  
 
- 
 }
-

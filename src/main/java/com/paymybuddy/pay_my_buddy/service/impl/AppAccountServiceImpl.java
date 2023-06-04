@@ -20,30 +20,30 @@ public class AppAccountServiceImpl implements IAppAccountService {
   @Override
   public AppAccount createAppAccount(AppAccount appAccount) throws UserAccountException {
 
-    // checking if account already exist
+    // Checking if account already exist
     if (appAccountRepository.findById(appAccount.getAppAccountID()).isPresent()) {
 
-   throw new UserAccountException ("This account already exist");
+      throw new UserAccountException("This account already exist");
     }
 
-    return    appAccountRepository.save(appAccount);
+    return appAccountRepository.save(appAccount);
 
   }
 
   @Override
   public AppAccount updateAppAccount(AppAccount appAccount) throws UserAccountException {
 
-    
     AppAccount appAccountToUpdate = new AppAccount();
-    
+
+    // Checking if account already exist
     if (appAccountRepository.findById(appAccount.getAppAccountID()).isPresent()) {
 
       appAccountToUpdate.setAppAccountID(appAccount.getAppAccountID());
       appAccountToUpdate.setBalance(appAccount.getBalance());
-     return appAccountRepository.save(appAccountToUpdate);
+      return appAccountRepository.save(appAccountToUpdate);
+    } else {
+      throw new UserAccountException("App Account to update not founded");
     }
-    else {
-    throw new UserAccountException ("App Account to update not founded");}
   }
 
   @Override

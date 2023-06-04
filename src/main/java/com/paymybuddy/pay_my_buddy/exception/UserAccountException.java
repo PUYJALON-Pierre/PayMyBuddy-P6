@@ -1,11 +1,12 @@
 package com.paymybuddy.pay_my_buddy.exception;
 
-
-
-
+/**
+ * Exception class concerning account
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 public class UserAccountException extends Exception {
-
-  
 
   /**
    * 
@@ -15,12 +16,6 @@ public class UserAccountException extends Exception {
   public UserAccountException(String message) {
     super(message);
 
-    
-    
   }
-
-
-  
-  
 
 }

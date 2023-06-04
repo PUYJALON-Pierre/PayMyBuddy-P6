@@ -23,23 +23,18 @@ import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 @Service
 public class UserServiceImpl implements IUserService {
 
-
-  
   UserRepository userRepository;
 
   UserAccountRepository userAccountRepository;
 
-  public UserServiceImpl(UserRepository userRepository,
-      UserAccountRepository userAccountRepository, MyUserDetailsService myUserDetailsService) {
+  public UserServiceImpl(UserRepository userRepository, UserAccountRepository userAccountRepository,
+      MyUserDetailsService myUserDetailsService) {
     super();
     this.userRepository = userRepository;
     this.userAccountRepository = userAccountRepository;
 
-  
   }
 
-  
-  
   @Override
   public Page<User> getUsers(int page) {
 
@@ -51,18 +46,14 @@ public class UserServiceImpl implements IUserService {
 
     return userRepository.save(user);
   }
-  
-  
 
   @Override
   public User updateUser(User user) {
 
-      return userRepository.save(user);
+    return userRepository.save(user);
 
   }
 
-  
-  
   @Override
   public void deleteUserById(int id) {
 
@@ -70,20 +61,18 @@ public class UserServiceImpl implements IUserService {
 
   }
 
-  //problème save the transient instance before flushing
+
   @Override
   public User addFriendToUser(User user, User friend) throws FriendException {
 
     // checking if user is already a friend
-
     if (user.getFriendList().contains(friend)) {
       throw new FriendException("You are already friend with this person");
     } else {
-   
- 
+
       List<User> updateFriendList = user.getFriendList();
-     updateFriendList.add(friend);
-     user.setFriendList(updateFriendList);
+      updateFriendList.add(friend);
+      user.setFriendList(updateFriendList);
       userRepository.save(user);
       return user;
     }
@@ -96,34 +85,33 @@ public class UserServiceImpl implements IUserService {
     if (user.getFriendList().contains(friend)) {
 
       List<User> updateFriendList = user.getFriendList();
-    updateFriendList.remove(friend);
-    user.setFriendList(updateFriendList);
+      updateFriendList.remove(friend);
+      user.setFriendList(updateFriendList);
       userRepository.save(user);
-    }
-    else{
+    } else {
       throw new FriendException("You are not friend with this person");
-    };
+    }
+    ;
     return user;
   }
 
-  
   @Override
   public List<User> findAllFriend(User user) {
-    List <User> friendList = user.getFriendList();
-   
+    List<User> friendList = user.getFriendList();
+
     return friendList;
   }
 
   @Override
   public List<Transfert> findAllTransfert(User user) {
-    
-    List <Transfert> transfertList = user.getTransfertList();
+
+    List<Transfert> transfertList = user.getTransfertList();
     return transfertList;
   }
 
   @Override
   public List<Deposit> findAllDeposit(User user) {
-    List <Deposit> depositList = user.getDepositList();
+    List<Deposit> depositList = user.getDepositList();
     return depositList;
   }
 
@@ -132,40 +120,33 @@ public class UserServiceImpl implements IUserService {
     return userRepository.findById(id).get();
   }
 
-
-
   @Override
-  public User getConnectedUser() throws UserAccountException { 
- 
-      String username = SecurityContextHolder.getContext().getAuthentication().getName();
-      if (userAccountRepository.findByEmail(username).isEmpty()) {
-          throw new UserAccountException("Email :" + username + ", does not match any user.");
-      }
-      UserAccount userAccountConnected =  userAccountRepository.findByEmail(username).get();
-       return userRepository.findByUserAccount(userAccountConnected).get();
-  
+  public User getConnectedUser() throws UserAccountException {
+
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    if (userAccountRepository.findByEmail(username).isEmpty()) {
+      throw new UserAccountException("Email :" + username + ", does not match any user.");
+    }
+    UserAccount userAccountConnected = userAccountRepository.findByEmail(username).get();
+    return userRepository.findByUserAccount(userAccountConnected).get();
+
   }
-
-
 
   @Override
   public List<User> getUsersList() {
- 
+
     return userRepository.findAll();
   }
 
-
-
   @Override
   public User getUserByAppAcount(UserAccount userAccount) throws UserAccountException {
-    
-    if(userRepository.findByUserAccount(userAccount).isEmpty()) {
-      
+
+    if (userRepository.findByUserAccount(userAccount).isEmpty()) {
+
       throw new UserAccountException("This user account, does not match any user.");
-      
-    }
-    else {
-      
+
+    } else {
+
       return userRepository.findByUserAccount(userAccount).get();
     }
   }

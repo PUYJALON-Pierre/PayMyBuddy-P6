@@ -16,12 +16,21 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 
+/**
+ * Class to configure Spring Security for Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Configuration @EnableWebSecurity
 public class SpringSecurityConfig {
 
   
   @Autowired
   private UserAccountRepository userAccountRepository;
+  
+  
+//***************************************************************
   
   @Bean
   public UserDetailsService userDetailsService() {
@@ -42,7 +51,6 @@ public class SpringSecurityConfig {
   }
 
   
-
 //***************************************************************
   
   
@@ -78,9 +86,5 @@ public class SpringSecurityConfig {
     return http.build();
   }
 
-
-
- 
- 
 
 }

@@ -12,6 +12,12 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Model class for UserAccount in Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Data @Entity @NoArgsConstructor @Table(name = "user_account")
 public class UserAccount implements Serializable {
 
@@ -20,12 +26,10 @@ public class UserAccount implements Serializable {
    */
   private static final long serialVersionUID = 2870189363034950533L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY) 
-  @Column(name = "user_account_id")
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "user_account_id")
   private int userAccountID;
 
-  @Column(name = "email", unique = true, length=50, nullable = false)
+  @Column(name = "email", unique = true, length = 50, nullable = false)
   private String email;
 
   @Column(name = "password", nullable = false)
@@ -37,10 +41,4 @@ public class UserAccount implements Serializable {
   @Column(name = "online_status")
   private boolean onlineStatus;
 
-
-
-  
-  
-  
-  
 }

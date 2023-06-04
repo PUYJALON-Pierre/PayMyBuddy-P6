@@ -1,6 +1,5 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +23,7 @@ public class DepositServiceImpl implements IDepositService {
 
   @Autowired
   UserRepository userRepository;
-  
+
   DepositRepository depositRepository;
 
   public DepositServiceImpl(DepositRepository depositRepository) {
@@ -58,18 +57,10 @@ public class DepositServiceImpl implements IDepositService {
   }
 
   @Override
-  public void deleteDepositBySourceUser(User user) {
-
-    depositRepository.deleteBySourceUser(user);
-
-  }
-
-  @Override
   public Deposit saveDeposit(User connectedUser, DepositDTO deposit) {
 
-    
     Deposit depositToSave = new Deposit();
-    
+
     depositToSave.setBankAccountIBAN(deposit.getIban());
     depositToSave.setAmount(deposit.getAmount());
     depositToSave.setCurrency(deposit.getCurrency());
@@ -78,28 +69,26 @@ public class DepositServiceImpl implements IDepositService {
     depositToSave.setFee(0.005);
     depositToSave.setSourceUser(connectedUser);
     depositToSave.setOperator("+");
-    
-    //set balance account of user with amount+fee
-    double amountWithFeetoPay = deposit.getAmount() + (deposit.getAmount()*0.005);
-    
-    AppAccount updateAppAccount =  connectedUser.getAppAccount();
-    double result = updateAppAccount.getBalance()+(deposit.getAmount());
-    double arrondi =Math.round(result*100.0)/100.0;
+
+    double amountWithFeetoPay = deposit.getAmount() + (deposit.getAmount() * 0.005);
+
+    // set balance account of user with amount
+    AppAccount updateAppAccount = connectedUser.getAppAccount();
+    double result = updateAppAccount.getBalance() + (deposit.getAmount());
+    double arrondi = Math.round(result * 100.0) / 100.0;
     updateAppAccount.setBalance(arrondi);
-     
+
     connectedUser.setAppAccount(updateAppAccount);
     userRepository.save(connectedUser);
-    
+
     return depositRepository.save(depositToSave);
   }
 
   @Override
   public Deposit saveWithdraw(User connectedUser, DepositDTO deposit) throws UserBalanceException {
 
+    Deposit depositToSave = new Deposit();
 
-    
-   Deposit depositToSave = new Deposit();
-    
     depositToSave.setBankAccountIBAN(deposit.getIban());
     depositToSave.setAmount(deposit.getAmount());
     depositToSave.setCurrency(deposit.getCurrency());
@@ -108,32 +97,27 @@ public class DepositServiceImpl implements IDepositService {
     depositToSave.setFee(0.005);
     depositToSave.setSourceUser(connectedUser);
     depositToSave.setOperator("-");
-    
-    //checking if balance is enough for withdraw
-    double amountWithFeetoPay = deposit.getAmount() + (deposit.getAmount()*0.005);
-    
-    if (amountWithFeetoPay>connectedUser.getAppAccount().getBalance()) {
-      
-      throw new UserBalanceException("You dont have enough money on your app account to make this transfer");
-      
+
+    // checking if balance is enough for withdraw
+    double amountWithFeetoPay = deposit.getAmount() + (deposit.getAmount() * 0.005);
+
+    if (amountWithFeetoPay > connectedUser.getAppAccount().getBalance()) {
+
+      throw new UserBalanceException(
+          "You dont have enough money on your app account to make this transfer");
+
     }
-    
-    AppAccount updateAppAccount =  connectedUser.getAppAccount();
-    double result = updateAppAccount.getBalance()-(deposit.getAmount());
-    double arrondi =Math.round(result*100.0)/100.0;
+
+    AppAccount updateAppAccount = connectedUser.getAppAccount();
+    double result = updateAppAccount.getBalance() - (amountWithFeetoPay);
+    double arrondi = Math.round(result * 100.0) / 100.0;
     updateAppAccount.setBalance(arrondi);
-     
-  
-    
+
     connectedUser.setAppAccount(updateAppAccount);
     userRepository.save(connectedUser);
-    
-    
-    
-    
+
     return depositRepository.save(depositToSave);
-    
-    
+
   }
 
 }

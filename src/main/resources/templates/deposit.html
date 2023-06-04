@@ -2,79 +2,92 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto:400,700">
 <title>Deposit Pay My Buddy</title>
 <link rel="stylesheet" href="css/bootstrap.min.css"
 	th:href="@{/css/bootstrap.min.css}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
 
 
 <body>
-	
 
-  <div class="py-5 ">
 
-        </div>
+	<div class="py-5 "></div>
 
-  <div class="row">
-			<p class="h4 col-9 text-dark fw-bold pt-5 col-11 px-5 py-2">New Deposit</p>
-		</div>
-    <section class="infos col-10 container bg-light border border-dark py-5">
+	<div class="row">
+		<p class="h4 col-9 text-dark fw-bold pt-5 col-11 px-5 py-2">New
+			Deposit</p>
+	</div>
+	<section
+		class="infos col-10 container bg-light border border-dark py-5">
 
-  <form th:object="${depositForm}" th:action="@{/deposit}" method="post" >
-        <div class="d-flex flex-row justify-content-center"> 
-            <div class="input-group ">
-           
-             <div class="form-group d-flex flex-row col-10">
-    <label class="px-1 py-1">IBAN</label>
-    <input type="text" name="iban" th:field=*{iban} class="form-control px-2 m-auto" aria-describedby="emailHelp" placeholder="Enter IBAN here..." required>
-  </div>
-              <span class="has-errors"
-					th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}"></span>
-            </div>
-            <div class="input-group d-flex flex-row m-auto ">
-                <div class="input-group-prepend">
-                  <span class="input-group-text py-2" id="inputGroup-sizing-default">Amount :</span>
-                </div>
-                <input type="text" class="form-control text-end" th:field=*{amount} aria-label="Default" aria-describedby="inputGroup-sizing-default" min="1"  required>
-    <span class="has-errors"
-					th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
-                  <div class="select currency">
-                    <select class="custom-select custom-select-sm pb-3" th:field="*{currency}" required>            
-          <option th:value="'$'" th:text="USD"></option>
-           <option th:value="'€'" th:text="EUR"></option>
-                      </select>
-                  </div>
-                </div>
-            
-             
-               
-    </div>
-    <div class="row2 d-flex flex-row py-5 m-auto"> 
-        <div class="col-7 form-group m-auto ">
-            <input type="text" th:field="*{description}" class="form-control pb-5" id="formGroupExampleInput" placeholder="Description...">
-        </div>
+		<form th:object="${depositForm}" th:action="@{/deposit}" method="post">
+			<div class="d-flex flex-row justify-content-center">
+				<div class="input-group ">
 
-         
-        </div>
-        
-           <div class=" text-center">
-                    <button type="submit" onclick="return confirm('Are you sure that you want to make this deposit?')" name="deposit" class="btn btn-success" id="payButton">Make Deposit</button>
-                   </div>
-        </form>
-        
-  
-        
-        
-        
- </section>
-    <div class="text-center py-5">
-      <a type="button" class="btn btn-danger btn-sm"  href="/profile">Return</a>
-    </div>
+					<div class="form-group d-flex flex-row col-10">
+						<label class="px-1 py-1">IBAN</label> <input type="text"
+							name="iban" th:field=*{iban} class="form-control px-2 m-auto"
+							aria-describedby="emailHelp" placeholder="Enter IBAN here..."
+							required>
+					</div>
+					<span class="has-errors" th:if="${#fields.hasErrors('iban')}"
+						th:errors="*{iban}"></span>
+				</div>
+				<div class="input-group d-flex flex-row m-auto ">
+					<div class="input-group-prepend">
+						<span class="input-group-text py-2" id="inputGroup-sizing-default">Amount
+							:</span>
+					</div>
+					<input type="text" class="form-control text-end" th:field=*{amount}
+						aria-label="Default" aria-describedby="inputGroup-sizing-default"
+						min="1" required> <span class="has-errors"
+						th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+					<div class="select currency">
+						<select class="custom-select custom-select-sm pb-3"
+							th:field="*{currency}" required>
+							<option th:value="'$'" th:text="USD"></option>
+							<option th:value="'€'" th:text="EUR"></option>
+						</select>
+					</div>
+				</div>
+
+
+
+			</div>
+			<div class="row2 d-flex flex-row py-5 m-auto">
+				<div class="col-7 form-group m-auto ">
+					<input type="text" th:field="*{description}"
+						class="form-control pb-5" id="formGroupExampleInput"
+						placeholder="Description...">
+				</div>
+
+
+			</div>
+
+			<div class=" text-center">
+				<button type="submit"
+					onclick="return confirm('Are you sure that you want to make this deposit?')"
+					name="deposit" class="btn btn-success" id="payButton">Make
+					Deposit</button>
+			</div>
+		</form>
+
+
+
+
+
+	</section>
+	<div class="text-center py-5">
+		<a type="button" class="btn btn-danger btn-sm" href="/profile">Return</a>
+	</div>
 
 </body>
 </html>

@@ -92,7 +92,7 @@
 
 				<div class="col-3 py-3">
 					<a type="button" class="btn btn-success m-auto"
-						id="addConnectionButton" href="/deposit" >Deposit Money</a>
+						id="addConnectionButton" href="/deposit">Deposit Money</a>
 				</div>
 				<div class="col-3 py-3">
 					<a type="button" class="btn btn-primary m-auto"
@@ -160,8 +160,7 @@
 													<h6>Status Account</h6>
 
 													<span th:switch="${connectedUser.userAccount.onlineStatus}">
-														<i th:case="true" >Active</i>
-														<i th:case="false" >Inactive</i>
+														<i th:case="true">Active</i> <i th:case="false">Inactive</i>
 													</span>
 
 												</div>
@@ -183,8 +182,8 @@
 						</div>
 					</div>
 					<div class=" py-3 d-flex justify-content-end ">
-						<a type="button" class="btn btn-warning "
-							id="addConnectionButton" href="/update" >Update informations</a>
+						<a type="button" class="btn btn-warning " id="addConnectionButton"
+							href="/update">Update informations</a>
 					</div>
 				</div>
 
@@ -266,8 +265,7 @@
 		<div class="col-10 py-2" style="line-height: 1">
 			<form th:action="@{/userSearch}" method="get">
 				<div class="form-group d-flex flex-row">
-					<label class="col-1 mb-2 font-weight-bold">Keyword : </label>
-					<input
+					<label class="col-1 mb-2 font-weight-bold">Keyword : </label> <input
 						type="text" name="keyWord" th:value="${keyWord}"
 						class="col-3 form-control rounded" placeholder="Enter Email..."
 						aria-label="Search" aria-describedby="search-addon" /> <span
@@ -297,19 +295,19 @@
 								method="post">
 								<button type="submit"
 									onclick="return confirm('Are you sure that you want to add this friend?')"
-									class="btn btn-primary btn-sm" >Add Friend</button>
+									class="btn btn-primary btn-sm">Add Friend</button>
 							</form>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-				<div class="row">
+		<div class="row">
 			<ul class="nav nav-pills d-flex justify-content-center py-2">
-				<li th:each="pageUsers, status:${pagesUsers}"><a
+				<li th:each="pageUser, status:${pagesUsers}"><a
 					th:class="${status.index == currentPageUsers?'btn btn-dark ms-2':'btn btn-outline-dark ms-2'}"
 					th:text="${status.index}"
-					th:href="@{profile(pageUsers=${status.index})}"></a></li>
+					th:href="@{profile(pageUser=${status.index})}"></a></li>
 			</ul>
 		</div>
 	</section>

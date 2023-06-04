@@ -21,6 +21,7 @@ public class AppAccountServiceTest {
   @Autowired
   AppAccountRepository appAccountRepository;
 
+  
   @Test
   public void createAppAccount() throws UserAccountException {
     AppAccount newAppAccount = new AppAccount();

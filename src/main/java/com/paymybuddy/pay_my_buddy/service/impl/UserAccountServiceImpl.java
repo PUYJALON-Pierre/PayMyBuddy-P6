@@ -21,45 +21,41 @@ public class UserAccountServiceImpl implements IUserAccountService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
-  
-  
+
   @Override
-  public UserAccount createUserAccount(UserAccount userAccount)throws UserAccountException{
+  public UserAccount createUserAccount(UserAccount userAccount) throws UserAccountException {
 
     // checking if mail already exist
     if (userAccountRepository.findByEmail(userAccount.getEmail()).isPresent()) {
       throw new UserAccountException("An account has already registred with this Email");
-     
+
     } else {
       userAccountRepository.save(userAccount);
       return userAccount;
     }
 
   }
-  
-
 
   @Override
   public UserAccount updateUserAccount(UserAccount userAccount) throws UserAccountException {
 
-   
+    // checking if mail is retrieve
     if (userAccountRepository.findByEmail(userAccount.getEmail()).isPresent()) {
 
-      UserAccount userAccountToUpdate = userAccountRepository.findByEmail(userAccount.getEmail()).get();
-    userAccountToUpdate.setPassword(passwordEncoder.encode(userAccount.getPassword()));
-  
+      UserAccount userAccountToUpdate = userAccountRepository.findByEmail(userAccount.getEmail())
+          .get();
+      userAccountToUpdate.setPassword(passwordEncoder.encode(userAccount.getPassword()));
 
-    userAccountRepository.save(userAccountToUpdate);
+      userAccountRepository.save(userAccountToUpdate);
 
-    return userAccountToUpdate;}
-    
-    
-    else {
-      throw new UserAccountException ("User Account to update not founded");}
+      return userAccountToUpdate;
     }
-  
 
-  
+    else {
+      throw new UserAccountException("User Account to update not founded");
+    }
+  }
+
   @Override
   public void deleteUserAccountByEmail(String email) {
     userAccountRepository.deleteByEmail(email);

@@ -24,8 +24,8 @@
 			<form th:action="@{/login}" method="post">
 				<div class="row1">
 					<div class="col d-flex justify-content-center">
-						<button type="button" class="btn btn-success" id="greenButton">Pay My
-							Buddy</button>
+						<button type="button" class="btn btn-success" id="greenButton">Pay
+							My Buddy</button>
 					</div>
 				</div>
 
@@ -34,8 +34,8 @@
 
 					<i class="col-1 bi bi-envelope py-3"></i>
 					<div class="col-11 form-floating">
-						<input type="text" class="form-control" id="floatingInput" name="email"
-							placeholder="name@example.com" required> <label
+						<input type="text" class="form-control" id="floatingInput"
+							name="email" placeholder="name@example.com" required> <label
 							for="floatingInput">Email</label>
 					</div>
 				</div>
@@ -45,15 +45,16 @@
 
 					<i class="col-1 bi bi-asterisk py-3"></i>
 					<div class="col-11 form-floating">
-						<input type="password" class="form-control" id="floatingInput" name="password"
-							placeholder="*********" required> <label for="floatingInput">Password</label>
+						<input type="password" class="form-control" id="floatingInput"
+							name="password" placeholder="*********" required> <label
+							for="floatingInput">Password</label>
 					</div>
 				</div>
 
 				<div class="col mb-3 form-check d-flex justify-content-center ">
-					<input type="checkbox" class="form-check-input" id="exampleCheck1"  name="remember-me"> 
-					<label class="form-check-label px-2" for="exampleCheck1">Remember
-						me</label>
+					<input type="checkbox" class="form-check-input" id="exampleCheck1"
+						name="remember-me"> <label class="form-check-label px-2"
+						for="exampleCheck1">Remember me</label>
 				</div>
 
 				<div class="row5">
@@ -62,17 +63,18 @@
 					</div>
 
 				</div>
-					<div th:if="${param.error}">
-				<div class="alert alert-danger ">
-				
-				<p class=" text-center my-auto">Incorrect email or password</p>
-				
+				<div th:if="${param.error}">
+					<div class="alert alert-danger ">
+
+						<p class=" text-center my-auto">Incorrect email or password</p>
+
+					</div>
 				</div>
-			</div>
 			</form>
 		</div>
-			<div class="row mx-auto py-4">
-				<a href="/registration" class="text-center bold">Create an account here!</a>
+		<div class="row mx-auto py-4">
+			<a href="/registration" class="text-center bold">Create an
+				account here!</a>
 		</div>
 	</section>
 	<p class="mt-1 mb-3 text-muted text-center py-1">&copy; 2023</p>

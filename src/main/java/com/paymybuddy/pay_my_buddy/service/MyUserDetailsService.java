@@ -17,12 +17,18 @@ import com.paymybuddy.pay_my_buddy.repository.AppAccountRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 
+/**
+ * Service class to loads specific data or register a User
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
   @Autowired
   AppAccountRepository appAccountRepository;
-  
+
   @Autowired
   UserAccountRepository userAccountRepository;
 
@@ -32,26 +38,31 @@ public class MyUserDetailsService implements UserDetailsService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-
   public MyUserDetailsService(UserAccountRepository userAccountRepository) {
     super();
-    this.userAccountRepository = userAccountRepository;}
+    this.userAccountRepository = userAccountRepository;
+  }
 
-
-  
+  /**
+   * Register a user to Pay My Buddy
+   *
+   * @param registerDTO - RegisterDTO
+   * @return User
+   */
   public User registerUser(RegisterDTO registerDTO) throws UserAccountException {
 
     AppAccount newAppAccount = new AppAccount();
     newAppAccount.setBalance(0);
-    
-    //save to generate id by jpa
+
+    // Save AppAccount to generate id by jpa
     appAccountRepository.save(newAppAccount);
-    
+
     UserAccount newAccount = new UserAccount();
     newAccount.setEmail(registerDTO.getEmail());
     newAccount.setOnlineStatus(true);
     newAccount.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-    
+
+    // Create new User
     User newUser = new User(registerDTO.getFirstname(), registerDTO.getLastname(),
         registerDTO.getBirthdate(), newAccount, newAppAccount);
 
@@ -59,9 +70,9 @@ public class MyUserDetailsService implements UserDetailsService {
       throw new UserAccountException("An account has already registred with this Email");
 
     } else {
-      //save to generate id by jpa
+      // Save UserAccount to generate id by jpa
       userAccountRepository.save(newAccount);
-      
+
       userRepository.save(newUser);
       return newUser;
     }
@@ -71,22 +82,20 @@ public class MyUserDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
 
+    // Find userAccount by mail
     UserAccount userAccount = userAccountRepository.findByEmail(mail).get();
 
     if (userAccount == null)
 
     {
-      System.out.println("Cannot find email : " + mail);
+      throw new UsernameNotFoundException("Cannot find email : " + mail);
+
     }
-    
-    //use userAcount to retrieve user that implements UserDetails
+
+    // use userAcount to retrieve User that implements UserDetails
     User connectedUSer = userRepository.findByUserAccount(userAccount).get();
-    
 
     return connectedUSer;
   }
 
-  
-  
-  
 }

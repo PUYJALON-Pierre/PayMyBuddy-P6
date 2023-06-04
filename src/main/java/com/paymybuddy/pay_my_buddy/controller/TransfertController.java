@@ -26,77 +26,94 @@ import com.paymybuddy.pay_my_buddy.service.IUserService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller class for Transfer in Pay My Buddy Application
+ *
+ * @author PUYJALON Pierre
+ * @since 03/06/2023
+ */
 @Controller
 public class TransfertController {
- 
+
   @Autowired
-ITransfertService iTransfertService;
-  
-  
+  ITransfertService iTransfertService;
+
   @Autowired
-IUserService iUserService;
-  
-  @GetMapping(value= "/transfer")
-public String viewTransferPageModel (Model model, @RequestParam(name="page", defaultValue="0") int currentPage) throws UserAccountException {
-  
+  IUserService iUserService;
+
+  /**
+   * Get transfer page model for connected user
+   *
+   * @param model - Model
+   * @param currentPageUsers - int
+   * @param currentPageDeposit - int
+   * @return transfer (html template)
+   */
+  @GetMapping(value = "/transfer")
+  public String viewTransferPageModel(Model model,
+      @RequestParam(name = "page", defaultValue = "0") int currentPage,
+      @RequestParam(name = "pageDeposit", defaultValue = "0") int currentPageDeposit)
+      throws UserAccountException {
+
+    // Retrieve transfert for connectedUser
     User connectedUser = iUserService.getConnectedUser();
 
-    Page<Transfert> pageTransferts = iTransfertService.getTransfertsBetweenAnyUsers(connectedUser, connectedUser, currentPage);
-   
-   model.addAttribute("connectedUser", connectedUser);
-   model.addAttribute("transfertsPages",pageTransferts.getContent());
-   model.addAttribute("pages", new int[pageTransferts.getTotalPages()]);
-   model.addAttribute("currentPage", currentPage); 
-   
- 
-   
-   List<Deposit>depositsList= iUserService.findAllDeposit(connectedUser);
-   
- /*need sublist or else return all friends at once
-   Pageable pageable1 = PageRequest.of(currentPage, 5);
-   int start1 = (int)pageable1.getOffset();
-   int end1 = Math.min((start1 + pageable1.getPageSize()), depositsList.size());
+    Page<Transfert> pageTransferts = iTransfertService.getTransfertsBetweenAnyUsers(connectedUser,
+        connectedUser, currentPage);
 
-   Page<Deposit> pageDeposits = new PageImpl<Deposit>(depositsList.subList(start1, end1), pageable1, depositsList.size());*/
-   
-   model.addAttribute("depositsPages",depositsList);
-  // model.addAttribute("pages", new int[pageDeposits.getTotalPages()]);
-   
-   //for post
-   model.addAttribute("transferForm", new Transfert());
-   
-   List<User>connectionsList= iUserService.findAllFriend(connectedUser);
-   model.addAttribute("connectionsList", connectionsList);
-   
+    model.addAttribute("connectedUser", connectedUser);
+    model.addAttribute("transfertsPages", pageTransferts.getContent());
+    model.addAttribute("pages", new int[pageTransferts.getTotalPages()]);
+    model.addAttribute("currentPage", currentPage);
+
+    // Create page of deposits with a sublist
+    List<Deposit> depositsList = iUserService.findAllDeposit(connectedUser);
+
+    Pageable pageable1 = PageRequest.of(currentPageDeposit, 5);
+    int start1 = (int) pageable1.getOffset();
+    int end1 = Math.min((start1 + pageable1.getPageSize()), depositsList.size());
+
+    Page<Deposit> pageDeposits = new PageImpl<Deposit>(depositsList.subList(start1, end1),
+        pageable1, depositsList.size());
+
+    model.addAttribute("depositsPages", pageDeposits);
+    model.addAttribute("pagesDeposit", new int[pageDeposits.getTotalPages()]);
+    model.addAttribute("currentPageDeposit", currentPageDeposit);
+
+    model.addAttribute("transferForm", new Transfert());
+
+    // Retrieve friends of connectedUser
+    List<User> connectionsList = iUserService.findAllFriend(connectedUser);
+    model.addAttribute("connectionsList", connectionsList);
+
     return "transfer";
-}
-  
-  
-  
-  @PostMapping(value= "/transfer")
-  public String makeTransfert(@Valid @ModelAttribute("transferForm") TransferDTO transferDto, BindingResult bindingResult, Model model) throws UserAccountException {
+  }
+
+  /**
+   * Create a new transfer
+   *
+   * @param model - Model
+   * @param transferDto - TransferDTO
+   * @param bindingResult - BindingResult
+   * @return transfer (html template)
+   */
+  @PostMapping(value = "/transfer")
+  public String makeTransfert(@Valid @ModelAttribute("transferForm") TransferDTO transferDto,
+      BindingResult bindingResult, Model model) throws UserAccountException {
     User connectedUser = iUserService.getConnectedUser();
-    
-    if(bindingResult.hasErrors())return "transfer";
+
+    if (bindingResult.hasErrors())
+      return "transfer";
     try {
       iTransfertService.createTransfert(connectedUser, transferDto);
-      
-    }catch(UserBalanceException e) {
-      
-      bindingResult.rejectValue("amount",  e.getMessage(), e.getMessage());
+
+    } catch (UserBalanceException e) {
+
+      bindingResult.rejectValue("amount", e.getMessage(), e.getMessage());
       return "transfer";
     }
-  
+
     return "redirect:/transfer";
   }
-  
-  
-  
+
 }
-
-
-
-
-
-
-
