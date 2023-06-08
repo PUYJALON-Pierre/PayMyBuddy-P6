@@ -1,11 +1,13 @@
 package com.paymybuddy.pay_my_buddy.service.impl;
 
+
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +62,6 @@ public class UserServiceImpl implements IUserService {
     userRepository.deleteById(id);
 
   }
-
 
   @Override
   public User addFriendToUser(User user, User friend) throws FriendException {
@@ -149,6 +150,20 @@ public class UserServiceImpl implements IUserService {
 
       return userRepository.findByUserAccount(userAccount).get();
     }
+  }
+
+  @Override
+  public Page<User> getPotentialFriends(List<Integer> friendListID, Pageable page) {
+    Page<User> potentialFriendsPage = userRepository.potentialFriend(friendListID, page);
+
+    return potentialFriendsPage;
+  }
+
+  @Override
+  public Page<User> searchUsersByEmail(String email, List<Integer> friendListID, Pageable page) {
+
+
+    return userRepository.findByEmailContaining(email, friendListID, page);
   }
 
 }

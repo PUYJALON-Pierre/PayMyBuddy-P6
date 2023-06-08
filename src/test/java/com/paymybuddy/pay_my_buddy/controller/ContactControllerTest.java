@@ -8,25 +8,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.paymybuddy.pay_my_buddy.service.MyUserDetailsServiceTest;
 
 
-
-@WebMvcTest(controllers = LoginController.class)
-
-public class LoginControllerTest {
+@WebMvcTest(controllers = ContactControllerTest.class)
+@Import(MyUserDetailsServiceTest.class)
+public class ContactControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
   
   
   @Test
-  public void getViewLoginPageModelTest() throws Exception {
+  public void getViewContactPageModelTest() throws Exception {
 
-    mockMvc.perform(get("/login")).andExpect(status().isOk());
-  
-    
+    mockMvc.perform(get("/contact")).andExpect(status().isOk());
   }
   
 }

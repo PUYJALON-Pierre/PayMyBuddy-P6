@@ -3,6 +3,7 @@ package com.paymybuddy.pay_my_buddy.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.paymybuddy.pay_my_buddy.exception.FriendException;
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
@@ -122,4 +123,11 @@ public interface IUserService {
    */
   public User getUserByAppAcount(UserAccount userAccount) throws UserAccountException;
 
+  
+  
+  public Page<User>getPotentialFriends(List<Integer> friendListID, Pageable page);
+  
+  
+  public Page<User>searchUsersByEmail(String email, List<Integer> friendListID, Pageable page);
+  
 }

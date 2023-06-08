@@ -21,12 +21,14 @@ public class AppAccountServiceImpl implements IAppAccountService {
   public AppAccount createAppAccount(AppAccount appAccount) throws UserAccountException {
 
     // Checking if account already exist
-    if (appAccountRepository.findById(appAccount.getAppAccountID()).isPresent()) {
+    if (appAccountRepository.findById(appAccount.getAppAccountID()).isEmpty()) {
 
+      appAccountRepository.save(appAccount);
+    }
+    else {
       throw new UserAccountException("This account already exist");
     }
-
-    return appAccountRepository.save(appAccount);
+    return appAccount;
 
   }
 

@@ -1,6 +1,7 @@
 package com.paymybuddy.pay_my_buddy.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.paymybuddy.pay_my_buddy.exception.FriendException;
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.User;
+import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 import com.paymybuddy.pay_my_buddy.service.IUserAccountService;
 import com.paymybuddy.pay_my_buddy.service.IUserService;
 
@@ -33,6 +35,9 @@ public class ProfileController {
   IUserService iUserService;
   @Autowired
   IUserAccountService iUserAccountService;
+
+  @Autowired
+  UserRepository userRepository;
 
   /**
    * Get profile page model for connected user
@@ -64,44 +69,72 @@ public class ProfileController {
     model.addAttribute("pages", new int[friendsPages.getTotalPages()]);
     model.addAttribute("currentPage", currentPageFriends);
 
-    // filtering allUsers by removing connectedUser and people already friends
-    List<User> allUsers = iUserService.getUsersList();
-    List<User> temp = new ArrayList<>();
-    temp.addAll(allUsers);
-    temp.removeIf(friendList::contains);
-    temp.removeIf(user -> user.equals(connectedUser));
+    List<Integer> friendListID = new ArrayList<>();
 
-    // use sublist to create page from userList after filtering
+    friendListID.add(connectedUser.getUserID());
+    friendList.forEach(f -> {
+      friendListID.add(f.getUserID());
+    });
+
     Pageable pageable2 = PageRequest.of(currentPageUsers, 5);
-    int start2 = (int) pageable2.getOffset();
-    int end1 = Math.min((start2 + pageable2.getPageSize()), temp.size());
-    Page<User> allUsersFiltered = new PageImpl<User>(temp.subList(start2, end1), pageable2,
-        temp.size());
 
-    model.addAttribute("allUsers", allUsersFiltered.getContent());
-    model.addAttribute("pagesUsers", new int[allUsersFiltered.getTotalPages()]);
+    Page<User> potentialFriendsPage = iUserService.getPotentialFriends(friendListID, pageable2);
+
+    model.addAttribute("allUsers", potentialFriendsPage.getContent());
+    model.addAttribute("pagesUsers", new int[potentialFriendsPage.getTotalPages()]);
     model.addAttribute("currentPageUsers", currentPageUsers);
 
     return "profile";
 
   }
 
-//todo
+  /**
+   * 
+   * @param model
+   * @param currentPageFriends
+   * @param currentPageUsers
+   * @param email
+   * @return
+   * @throws UserAccountException
+   */
   @GetMapping(value = "/userSearch")
   public String searchFriend(Model model,
-      @RequestParam(name = "page", defaultValue = "0") int currentPage,
+      @RequestParam(name = "page", defaultValue = "0") int currentPageFriends,
+      @RequestParam(name = "pageUser", defaultValue = "0") int currentPageUsers,
       @RequestParam(name = "keyWord", defaultValue = "") String email) throws UserAccountException {
-    String userSearch = "Not found";
-    try {
-      User user = iUserService.getUserByAppAcount(iUserAccountService.findUserByEmail(email));
-      userSearch = user.getUserAccount().getEmail();
-    } catch (Exception e) {
 
-      return "profile";
-    }
+    // Recharge profile page
+    User connectedUser = iUserService.getConnectedUser();
+    List<User> friendList = iUserService.findAllFriend(connectedUser);
 
-    model.addAttribute("userSearch", userSearch);
+    model.addAttribute("connectedUser", connectedUser);
+
+    // use sublist to create page from friendList
+    Pageable pageable = PageRequest.of(currentPageFriends, 5);
+    int start = (int) pageable.getOffset();
+    int end = Math.min((start + pageable.getPageSize()), friendList.size());
+    Page<User> friendsPages = new PageImpl<User>(friendList.subList(start, end), pageable,
+        friendList.size());
+
+    model.addAttribute("friendsPages", friendsPages.getContent());
+    model.addAttribute("pages", new int[friendsPages.getTotalPages()]);
+    model.addAttribute("currentPage", currentPageFriends);
+
+    // Creating userSearch Page
+    List<Integer> friendListID = new ArrayList<>();
+
+    friendListID.add(connectedUser.getUserID());
+    friendList.forEach(f -> {
+      friendListID.add(f.getUserID());
+    });
+    
+    Pageable pageable3 = PageRequest.of(currentPageUsers, 10);
+    Page<User> userSearch = userRepository.findByEmailContaining(email,friendListID, pageable3);
+
+    model.addAttribute("allUsers", userSearch);
     model.addAttribute("keyWord", email);
+    model.addAttribute("pagesUsers", new int[userSearch.getTotalPages()]);
+    model.addAttribute("currentPageUsers", currentPageUsers);
 
     return "profile";
 

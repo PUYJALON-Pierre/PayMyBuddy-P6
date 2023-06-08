@@ -3,16 +3,17 @@ package com.paymybuddy.pay_my_buddy.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import com.paymybuddy.pay_my_buddy.exception.UserAccountException;
 import com.paymybuddy.pay_my_buddy.model.AppAccount;
 import com.paymybuddy.pay_my_buddy.repository.AppAccountRepository;
 
-@SpringBootTest @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SpringBootTest
 public class AppAccountServiceTest {
 
   @Autowired
@@ -21,44 +22,56 @@ public class AppAccountServiceTest {
   @Autowired
   AppAccountRepository appAccountRepository;
 
-  
+  @AfterEach
+  public void clear() {
+
+    appAccountRepository.deleteAll();
+  }
+
   @Test
-  public void createAppAccount() throws UserAccountException {
+  public void createAppAccountTest() throws UserAccountException {
     AppAccount newAppAccount = new AppAccount();
-    newAppAccount.setBalance(0);
+    newAppAccount.setBalance(170);
 
     iAppAccountService.createAppAccount(newAppAccount);
 
-    assertEquals(appAccountRepository.findAll().size(), 5);
+    assertEquals(appAccountRepository.findAll().size(), 1);
 
   }
 
   @Test
-  public void createAppAccountWithIdAlreadyExisting() throws UserAccountException {
+  public void createAppAccountWithIdAlreadyExistingTest() throws UserAccountException {
 
     try {
-      AppAccount newAppAccount = new AppAccount();
-      newAppAccount.setBalance(0);
-      iAppAccountService.createAppAccount(newAppAccount);
+
+      AppAccount newAppAccount1 = new AppAccount();
+      newAppAccount1.setBalance(16);
+      iAppAccountService.createAppAccount(newAppAccount1);
+      iAppAccountService.createAppAccount(newAppAccount1);
     } catch (Exception e) {
       assertEquals(e.getMessage(), "This account already exist");
     }
   }
 
   @Test
-  public void updateAppAccount() throws UserAccountException {
+  public void updateAppAccountTest() throws UserAccountException {
+    AppAccount newAppAccount2 = new AppAccount();
+    newAppAccount2.setBalance(16);
+    iAppAccountService.createAppAccount(newAppAccount2);
+
     AppAccount updateAppAccount = new AppAccount();
     updateAppAccount.setBalance(165);
-    updateAppAccount.setAppAccountID(4);
+    updateAppAccount.setAppAccountID(newAppAccount2.getAppAccountID());
 
     iAppAccountService.updateAppAccount(updateAppAccount);
 
-    assertEquals(appAccountRepository.findById(4).get().getBalance(), 165);
+    assertEquals(appAccountRepository.findById(newAppAccount2.getAppAccountID()).get().getBalance(),
+        165);
 
   }
 
   @Test
-  public void updateAppAccountWithBadId() throws UserAccountException {
+  public void updateAppAccountWithBadIdTest() throws UserAccountException {
 
     try {
 
@@ -76,20 +89,29 @@ public class AppAccountServiceTest {
   }
 
   @Test
-  public void deleteAppAccount() {
+  public void deleteAppAccountTest() throws UserAccountException {
 
-    iAppAccountService.deleteAppAccountById(3);
+    AppAccount newAppAccount3 = new AppAccount();
+    newAppAccount3.setBalance(1658);
+    iAppAccountService.createAppAccount(newAppAccount3);
 
-    assertThat(appAccountRepository.findById(3).isEmpty());
+    iAppAccountService.deleteAppAccountById(newAppAccount3.getAppAccountID());
+
+    assertThat(appAccountRepository.findById(newAppAccount3.getAppAccountID()).isEmpty());
 
   }
 
   @Test
-  public void getAppAccountById() {
+  public void getAppAccountByIdTest() throws UserAccountException {
 
-    iAppAccountService.getAppAccountById(4);
+    AppAccount newAppAccount4 = new AppAccount();
+    newAppAccount4.setBalance(100);
+    iAppAccountService.createAppAccount(newAppAccount4);
 
-    assertThat(appAccountRepository.findById(4).isEmpty());
+    AppAccount appAccountRetrieve = iAppAccountService
+        .getAppAccountById(newAppAccount4.getAppAccountID());
+
+    assertEquals(appAccountRetrieve.getBalance(), 100);
 
   }
 
