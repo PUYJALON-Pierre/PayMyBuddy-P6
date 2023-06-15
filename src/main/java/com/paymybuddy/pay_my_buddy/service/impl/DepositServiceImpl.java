@@ -18,6 +18,8 @@ import com.paymybuddy.pay_my_buddy.repository.DepositRepository;
 import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 import com.paymybuddy.pay_my_buddy.service.IDepositService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class DepositServiceImpl implements IDepositService {
 
@@ -49,14 +51,17 @@ public class DepositServiceImpl implements IDepositService {
     return depositRepository.findById(id);
   }
 
+ 
   @Override
+  @Transactional
   public void deleteDepositById(int id) {
 
     depositRepository.deleteById(id);
 
   }
-
+  
   @Override
+  @Transactional
   public Deposit saveDeposit(User connectedUser, DepositDTO deposit) {
 
     Deposit depositToSave = new Deposit();
@@ -83,8 +88,10 @@ public class DepositServiceImpl implements IDepositService {
 
     return depositRepository.save(depositToSave);
   }
-
+  
+  
   @Override
+  @Transactional
   public Deposit saveWithdraw(User connectedUser, DepositDTO deposit) throws UserBalanceException {
 
     Deposit depositToSave = new Deposit();

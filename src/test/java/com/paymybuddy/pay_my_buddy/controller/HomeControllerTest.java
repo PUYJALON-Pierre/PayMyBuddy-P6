@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.paymybuddy.pay_my_buddy.config.MyUserDetailsConfigTest;
 
 
 
-@WebMvcTest(controllers = HomeControllerTest.class)
-@Import(MyUserDetailsConfigTest.class)
+@WebMvcTest(controllers = HomeController.class)
+@WithMockUser(username="duke", roles={"USER"}, password="duke")
 public class HomeControllerTest {
 
   @Autowired
@@ -28,5 +28,9 @@ public class HomeControllerTest {
     mockMvc.perform(get("/home")).andExpect(status().isOk());
   }
   
+  @Test
+  public void getViewDefaultPageModelTest() throws Exception {
 
+    mockMvc.perform(get("/")).andExpect(status().isFound());
+  }
 }

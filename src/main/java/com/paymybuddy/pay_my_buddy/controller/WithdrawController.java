@@ -53,10 +53,11 @@ public class WithdrawController {
    * @param deposit - DepositDTO
    * @param bindingResult - BindingResult
    * @return profile or withdraw (html template)
+   * @throws UserAccountException 
    */
   @PostMapping("/withdraw")
-  public String withdraw(@Valid @ModelAttribute("withdraw") DepositDTO deposit,
-      BindingResult bindingResult, Model model) throws UserBalanceException {
+  public String withdraw(@Valid @ModelAttribute("withdrawForm") DepositDTO deposit,
+      BindingResult bindingResult, Model model) throws UserBalanceException, UserAccountException {
 
     if (bindingResult.hasErrors())
       return "withdraw";
@@ -66,7 +67,7 @@ public class WithdrawController {
 
       iDepositService.saveWithdraw(userToUpdate, deposit);
 
-    } catch (UserAccountException e) {
+    } catch (UserBalanceException e) {
       bindingResult.rejectValue("amount", e.getMessage(), e.getMessage());
       return "withdraw";
     }

@@ -1,5 +1,6 @@
 package com.paymybuddy.pay_my_buddy.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,8 @@ public class TransfertController {
 
     // Create page of deposits with a sublist
     List<Deposit> depositsList = iUserService.findAllDeposit(connectedUser);
-
+    // To sort deposit by more recent
+    Collections.reverse(depositsList);
     Pageable pageable1 = PageRequest.of(currentPageDeposit, 5);
     int start1 = (int) pageable1.getOffset();
     int end1 = Math.min((start1 + pageable1.getPageSize()), depositsList.size());

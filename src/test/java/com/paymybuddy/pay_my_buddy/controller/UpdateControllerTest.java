@@ -6,66 +6,79 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Date;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.paymybuddy.pay_my_buddy.DTO.DepositDTO;
-
+import com.paymybuddy.pay_my_buddy.DTO.UpdateDTO;
+import com.paymybuddy.pay_my_buddy.model.AppAccount;
 import com.paymybuddy.pay_my_buddy.model.User;
 import com.paymybuddy.pay_my_buddy.model.UserAccount;
-import com.paymybuddy.pay_my_buddy.service.IDepositService;
 import com.paymybuddy.pay_my_buddy.service.IUserService;
+import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 
-@WebMvcTest(controllers = DepositController.class)
+@WebMvcTest(controllers = UpdateController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class DepositControllerTest {
+public class UpdateControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @MockBean
-  private IDepositService iDepositService;
-
+ private IUserService iUserService;
+  
   @MockBean
-  private IUserService iUserService;
-
+  private PasswordEncoder passwordEncoder;
+  
+  
   User user;
 
+  @BeforeEach
   public void setup() {
 
     UserAccount userAccount = new UserAccount();
     userAccount.setEmail("testuser@email.com");
     userAccount.setPassword("password");
 
-    user = new User();
-    user.setUserAccount(userAccount);
+    AppAccount newAppAccount = new AppAccount();
+    newAppAccount.setBalance(0);
 
+    user = new User("Bertrand", "Blanc", new Date(), userAccount, newAppAccount);
+  }
+  
+  @Test
+  public void getViewUpdatePageModelTest() throws Exception {
+    mockMvc.perform(get("/update")).andExpect(status().isOk());
   }
 
   @Test
-  public void getViewDepositPageModelTest() throws Exception {
-    mockMvc.perform(get("/deposit")).andExpect(status().isOk());
-  }
+  public void updateUserConnectedTest() throws Exception {
 
-  @Test
-  public void addDepositTest() throws Exception {
-
-    DepositDTO depositDTO = new DepositDTO();
-    depositDTO.setAmount(120);
-    depositDTO.setIban("FR332500000550");
-    depositDTO.setCurrency("$");
-    depositDTO.setDescription("first");
+    UpdateDTO update = new UpdateDTO();
+    update.setBirthdate(new Date());
+    update.setFirstname("test");
+    update.setLastname("test");
+    update.setPassword("test");
+    
+    user.setFirstname(update.getFirstname());
+    user.setLastname(update.getLastname());
+    user.setBirthdate(update.getBirthdate());
+    user.getUserAccount().setPassword(passwordEncoder.encode(update.getPassword()));
+    
     when(iUserService.getConnectedUser()).thenReturn(user);
+    when( iUserService.saveUser(user)).thenReturn(user);
 
     mockMvc
-        .perform(post("/deposit").param("amount", "120").param("iban", "FR332500000550")
-            .param("description", "first").param("currency", "$"))
+        .perform(post("/update").param("birthdate", "2011-01-01").param("firstname", "test").param("lastname", "test")
+            .param("password", "test"))
         .andExpect(redirectedUrl("/profile")).andExpect(status().is3xxRedirection());
   }
 

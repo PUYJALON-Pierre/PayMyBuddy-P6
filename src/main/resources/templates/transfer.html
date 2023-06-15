@@ -88,7 +88,7 @@
 					<input type="text" class="form-control text-end" th:field=*{amount}
 						aria-label="Default" aria-describedby="inputGroup-sizing-default"
 						min="1" required> <span class="has-errors"
-						th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+						th:if="${#fields.hasErrors('amount')}" th:errorclass="error" th:errors="*{amount}"></span>
 					<div class="select currency">
 						<select class="custom-select custom-select-sm pb-3"
 							th:field="*{currency}" required>

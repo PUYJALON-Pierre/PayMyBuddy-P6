@@ -7,6 +7,8 @@ import com.paymybuddy.pay_my_buddy.model.AppAccount;
 import com.paymybuddy.pay_my_buddy.repository.AppAccountRepository;
 import com.paymybuddy.pay_my_buddy.service.IAppAccountService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AppAccountServiceImpl implements IAppAccountService {
 
@@ -18,6 +20,7 @@ public class AppAccountServiceImpl implements IAppAccountService {
   }
 
   @Override
+  @Transactional
   public AppAccount createAppAccount(AppAccount appAccount) throws UserAccountException {
 
     // Checking if account already exist
@@ -32,7 +35,9 @@ public class AppAccountServiceImpl implements IAppAccountService {
 
   }
 
+
   @Override
+  @Transactional
   public AppAccount updateAppAccount(AppAccount appAccount) throws UserAccountException {
 
     AppAccount appAccountToUpdate = new AppAccount();
@@ -49,6 +54,7 @@ public class AppAccountServiceImpl implements IAppAccountService {
   }
 
   @Override
+  @Transactional
   public void deleteAppAccountById(int appAccountId) {
     appAccountRepository.deleteById(appAccountId);
   }

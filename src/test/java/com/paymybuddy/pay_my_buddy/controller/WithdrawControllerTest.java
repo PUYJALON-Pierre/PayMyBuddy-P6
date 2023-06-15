@@ -22,9 +22,9 @@ import com.paymybuddy.pay_my_buddy.model.UserAccount;
 import com.paymybuddy.pay_my_buddy.service.IDepositService;
 import com.paymybuddy.pay_my_buddy.service.IUserService;
 
-@WebMvcTest(controllers = DepositController.class)
+@WebMvcTest(controllers = WithdrawController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class DepositControllerTest {
+public class WithdrawControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -49,12 +49,12 @@ public class DepositControllerTest {
   }
 
   @Test
-  public void getViewDepositPageModelTest() throws Exception {
-    mockMvc.perform(get("/deposit")).andExpect(status().isOk());
+  public void getViewWithdrawPageModelTest() throws Exception {
+    mockMvc.perform(get("/withdraw")).andExpect(status().isOk());
   }
 
   @Test
-  public void addDepositTest() throws Exception {
+  public void withdrawTest() throws Exception {
 
     DepositDTO depositDTO = new DepositDTO();
     depositDTO.setAmount(120);
@@ -64,7 +64,7 @@ public class DepositControllerTest {
     when(iUserService.getConnectedUser()).thenReturn(user);
 
     mockMvc
-        .perform(post("/deposit").param("amount", "120").param("iban", "FR332500000550")
+        .perform(post("/withdraw").param("amount", "120").param("iban", "FR332500000550")
             .param("description", "first").param("currency", "$"))
         .andExpect(redirectedUrl("/profile")).andExpect(status().is3xxRedirection());
   }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.pay_my_buddy.DTO.TransferDTO;
@@ -59,28 +60,32 @@ public class TransfertServiceImpl implements ITransfertService {
   @Override
   public Page<Transfert> getTransfertsBetweenAnyUsers(User user1, User user2, int page) {
 
-    return transfertRepository.findBySourceUserOrRecipient(user1, user2, PageRequest.of(page, 3));
+    return transfertRepository.findBySourceUserOrRecipient(user1, user2, PageRequest.of(page, 3, Sort.by("date").descending()));
   }
 
   @Override
+  @Transactional
   public Transfert saveTransfert(Transfert transfert) {
 
     return transfertRepository.save(transfert);
   }
 
   @Override
+  @Transactional
   public void deleteTransfertById(int id) {
     transfertRepository.deleteById(id);
 
   }
 
   @Override
+  @Transactional
   public void deleteTransfertBySourceUser(User sourceUser) {
     transfertRepository.deleteBySourceUser(sourceUser);
 
   }
 
   @Override
+  @Transactional
   public Transfert createTransfert(User connectedUser, TransferDTO transferDto)
       throws UserBalanceException, UserAccountException {
 

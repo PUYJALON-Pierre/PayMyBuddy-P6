@@ -22,6 +22,8 @@ import com.paymybuddy.pay_my_buddy.repository.UserRepository;
 import com.paymybuddy.pay_my_buddy.service.IUserService;
 import com.paymybuddy.pay_my_buddy.service.MyUserDetailsService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -44,12 +46,14 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
+  @Transactional
   public User saveUser(User user) {
 
     return userRepository.save(user);
   }
 
   @Override
+  @Transactional
   public User updateUser(User user) {
 
     return userRepository.save(user);
@@ -57,6 +61,7 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
+  @Transactional
   public void deleteUserById(int id) {
 
     userRepository.deleteById(id);
@@ -64,6 +69,7 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
+  @Transactional
   public User addFriendToUser(User user, User friend) throws FriendException {
 
     // checking if user is already a friend
@@ -81,6 +87,7 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
+  @Transactional
   public User deleteFriend(User user, User friend) throws FriendException {
 
     if (user.getFriendList().contains(friend)) {

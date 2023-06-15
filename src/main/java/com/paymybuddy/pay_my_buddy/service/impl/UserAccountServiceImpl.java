@@ -9,6 +9,8 @@ import com.paymybuddy.pay_my_buddy.model.UserAccount;
 import com.paymybuddy.pay_my_buddy.repository.UserAccountRepository;
 import com.paymybuddy.pay_my_buddy.service.IUserAccountService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserAccountServiceImpl implements IUserAccountService {
 
@@ -23,6 +25,7 @@ public class UserAccountServiceImpl implements IUserAccountService {
   private PasswordEncoder passwordEncoder;
 
   @Override
+  @Transactional
   public UserAccount createUserAccount(UserAccount userAccount) throws UserAccountException {
 
     // checking if mail already exist
@@ -37,6 +40,7 @@ public class UserAccountServiceImpl implements IUserAccountService {
   }
 
   @Override
+  @Transactional
   public UserAccount updateUserAccount(UserAccount userAccount) throws UserAccountException {
 
     // checking if mail is retrieve
@@ -57,6 +61,7 @@ public class UserAccountServiceImpl implements IUserAccountService {
   }
 
   @Override
+  @Transactional
   public void deleteUserAccountByEmail(String email) {
     userAccountRepository.deleteByEmail(email);
 
